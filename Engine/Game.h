@@ -23,6 +23,11 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
+#include <cmath>
+#include <random>
+#include "Text.h"
+#include <chrono>
+
 
 class Game
 {
@@ -34,22 +39,39 @@ public:
 private:
 	void ComposeFrame();
 	void UpdateModel();
+	
 	/********************************/
 	/*  User Functions              */
+
+	
 	/********************************/
 private:
 	MainWindow& wnd;
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
-	int x = 300, y = 300, speed = 3;
-	int r = 255, g = 255, b = 255;
-	int sqlen = 10;						//sqare lenght
-	int vx = 0, vy = 0;
-	bool inhibRight = false;
-	bool inhibLeft = false;
-	bool inhibUp = false;
-	bool inhibDown = false;
+	
 
+	std::random_device rd;
+	std::mt19937 rng;
+	std::uniform_int_distribution<int> xrange;
+	std::uniform_int_distribution<int> yrange;
+	std::uniform_int_distribution<int> vrange;
+	std::uniform_int_distribution<int> rgbrange;
+
+	std::chrono::steady_clock::time_point start;
+	std::chrono::steady_clock::time_point end;
+	float durationSecond=0.0f;
+
+	Text nr,text;
+
+	int test = 0;
+	int x = 1, y = 1;
+	int kframe = 0;
+	int k = 0;
+
+	Color white = { 255,255,255 };
 	/********************************/
 };
+
+

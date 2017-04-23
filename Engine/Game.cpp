@@ -1,5 +1,5 @@
-/****************************************************************************************** 
- *	Chili DirectX Framework Version 16.07.20											  *	
+/******************************************************************************************
+ *	Chili DirectX Framework Version 16.07.20											  *
  *	Game.cpp																			  *
  *	Copyright 2016 PlanetChili.net <http://www.planetchili.net>							  *
  *																						  *
@@ -20,17 +20,26 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include <cmath>
+#include <random>
+#include <chrono>
 
-Game::Game( MainWindow& wnd )
+Game::Game(MainWindow& wnd)
 	:
-	wnd( wnd ),
-	gfx( wnd )
-{
+	wnd(wnd),
+	gfx(wnd),
+	rng(rd()),
+	xrange(0, gfx.ScreenWidth - 30),
+	yrange(0, gfx.ScreenHeight - 30),
+	rgbrange(0,255),
+	nr(gfx,25,50,15,15,50,7),
+	text(gfx, 25, 300, 7, 7, 50, 7)
+{	
 }
 
 void Game::Go()
 {
-	gfx.BeginFrame();	
+	gfx.BeginFrame();
 	UpdateModel();
 	ComposeFrame();
 	gfx.EndFrame();
@@ -38,55 +47,52 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	if (wnd.kbd.KeyIsPressed(VK_RIGHT)) {
-		if (!inhibRight) {
-			vx++;
-		}
-	}
-	if (wnd.kbd.KeyIsPressed(VK_LEFT)) {
-		if (!inhibLeft) {
-			vx--;
-		}
-	}
-	if (wnd.kbd.KeyIsPressed(VK_DOWN)) {
-		if (!inhibDown) {
-			vy++;
-		}
-	}
-	if (wnd.kbd.KeyIsPressed(VK_UP)) {
-		if (!inhibUp) {
-			vy--;
-		}
-	}
-
-	if (wnd.kbd.KeyIsPressed(VK_SPACE)) {
-		vx = 0;
-		vy = 0;
-	}
-
-	x = x + vx;
-	y = y + vy;
-
-
-	if (wnd.kbd.KeyIsPressed(VK_CONTROL)) {
-		g = 0, b = 0;
-		speed = 2;
-	}
-	else {
-		speed = 1;
-		g = 255, b = 255;
-	}
-
 }
+
+
 
 void Game::ComposeFrame()
 {
-	
-	
-
-	for (int i = x - sqlen / 2; i <= x + sqlen / 2; i++) {
-		for (int j = y - sqlen / 2; j <= y + sqlen / 2; j++) {
-			gfx.PutPixel(i, j, r, g, b);
-		}
+	/*
+	if (kframe == 0) {
+		start = std::chrono::steady_clock::now();
 	}
+	kframe++;
+	if (kframe >= 60) {
+		end = std::chrono::steady_clock::now();
+
+		std::chrono::duration<float> runtime = end - start;
+		durationSecond = runtime.count();
+
+		kframe = 0;
+
+
+		
+	}
+	text.drawfloat(durationSecond, 5, 5, Colors::White);
+	text.drawint(kframe, 5, 15, Colors::White);
+	*/
+
+	if (durationSecond == 0.0f) {
+		start = std::chrono::steady_clock::now();
+	}
+	end = std::chrono::steady_clock::now();
+	std::chrono::duration<float> runtime = end - start;
+	durationSecond = runtime.count();
+	kframe++;
+	if (durationSecond >= 1.0f) {
+		durationSecond = 0.0f;
+		k = kframe;
+		kframe = 0;
+		gfx.DrawCircle(gfx.ScreenWidth / 2, gfx.ScreenHeight / 2, 200, Colors::Red);
+	}
+	text.drawfloat(durationSecond, 5, 5, Colors::White);
+	text.drawint(kframe, 5, 15, Colors::White);
+
+
+	text.drawint(k,5, 25, Colors::White);
 }
+
+
+
+
