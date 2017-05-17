@@ -136,7 +136,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Ball.h" />
     <ClInclude Include="FrameTimer.h" />
+    <ClInclude Include="RectF.h" />
+    <ClInclude Include="SpriteCodex.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="ChiliException.h" />
     <ClInclude Include="ChiliWin.h" />
@@ -149,9 +152,13 @@
     <ClInclude Include="Mobile.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Ball.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
+    <ClCompile Include="RectF.cpp" />
+    <ClCompile Include="SpriteCodex.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="DXErr.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -160,6 +167,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="FramebufferPS.hlsl">

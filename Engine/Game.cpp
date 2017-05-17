@@ -28,12 +28,7 @@ Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	rng(rd()),
-	xrange(0, gfx.ScreenWidth - 30),
-	yrange(0, gfx.ScreenHeight - 30),
-	rgbrange(0,255),
-	nr(gfx,25,50,15,15,50,7),
-	text(gfx, 25, 300, 7, 7, 50, 7)
+	rng(rd())
 {	
 }
 

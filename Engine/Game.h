@@ -55,24 +55,7 @@ private:
 
 	std::random_device rd;
 	std::mt19937 rng;
-	std::uniform_int_distribution<int> xrange;
-	std::uniform_int_distribution<int> yrange;
-	std::uniform_int_distribution<int> vrange;
-	std::uniform_int_distribution<int> rgbrange;
-
-	
-
-	Text nr,text;
 	FrameTimer ft;
-	int test = 0;
-	int x = 1, y = 1;
-	int kframe = 0;
-	int k = 0;
-
-	Color white = { 255,255,255 };
-
-	enum class state { red, green, yellow};
-	state r = state::green;
 	
 	/********************************/
 };
