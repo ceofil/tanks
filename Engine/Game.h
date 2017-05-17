@@ -28,6 +28,7 @@
 #include "Text.h"
 #include <chrono>
 #include "FrameTimer.h"
+#include "Ball.h"
 
 
 class Game
@@ -56,6 +57,8 @@ private:
 	std::random_device rd;
 	std::mt19937 rng;
 	FrameTimer ft;
+	Ball ball;
+	RectF wall;
 	
 	/********************************/
 };

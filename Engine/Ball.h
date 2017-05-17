@@ -2,6 +2,8 @@
 
 #include "Vec2.h"
 #include "Graphics.h"
+#include "RectF.h"
+#include "SpriteCodex.h"
 
 class Ball
 {
@@ -11,7 +13,8 @@ public:
 	void Draw( Graphics& gfx ) const;
 	void Update( float dt );
 	// return: 0=nada 1=hit wall 2=hit bottom
-	int DoWallCollision( const RectF& walls );
+	void DoWallCollision( const RectF& walls );
+	void DoOutsideWallCollision(const RectF& wall);
 	void ReboundX();
 	void ReboundY();
 	RectF GetRect() const;

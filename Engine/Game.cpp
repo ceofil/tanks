@@ -28,7 +28,9 @@ Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	rng(rd())
+	rng(rd()),
+	ball(Vec2(300.0f,300.0f),Vec2(1.0f,1.0f)),
+	wall(50.0f, 300.0f, 100.0f,150.0f)
 {	
 }
 
@@ -50,13 +52,16 @@ void Game::Go()
 void Game::UpdateModel(float dt)
 {
 	
+	ball.Update(dt);
+	ball.DoOutsideWallCollision(wall);
 }
 
 
 
 void Game::ComposeFrame()
 {
-	
+	ball.Draw(gfx);
+	gfx.DrawRectPoints(wall.left, wall.top, wall.right, wall.bottom, Colors::White);
 }
 
 
