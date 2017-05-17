@@ -339,6 +339,11 @@ void Graphics::DrawRectPoints(int x1,int y1,int x2, int y2, Color c)
 	DrawRect((x2 + x1) / 2, (y2 + y1) / 2, x2 - x1, y2 - y1, c);
 }
 
+void Graphics::DrawRectPoints(const RectF& rect, Color c)
+{
+	DrawRectPoints(int(rect.left), int(rect.top), int(rect.right), int(rect.bottom), c);
+}
+
 bool Graphics::insideScreen(int x, int y)
 {
 	return

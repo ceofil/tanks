@@ -51,7 +51,6 @@ void Game::Go()
 
 void Game::UpdateModel(float dt)
 {
-	
 	ball.Update(dt);
 	ball.DoOutsideWallCollision(wall);
 }
@@ -61,7 +60,7 @@ void Game::UpdateModel(float dt)
 void Game::ComposeFrame()
 {
 	ball.Draw(gfx);
-	gfx.DrawRectPoints(wall.left, wall.top, wall.right, wall.bottom, Colors::White);
+	gfx.DrawRectPoints(wall, Colors::White);
 }
 
 
