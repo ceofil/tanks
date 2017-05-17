@@ -40,57 +40,28 @@ Game::Game(MainWindow& wnd)
 void Game::Go()
 {
 	gfx.BeginFrame();
-	UpdateModel();
+	float timeperiod = ft.Mark();
+	while (timeperiod > 0.0f)
+	{
+		const float dt = std::min(0.0025f, timeperiod);
+		UpdateModel(dt);
+		timeperiod -= dt;
+	}
+
 	ComposeFrame();
 	gfx.EndFrame();
 }
 
-void Game::UpdateModel()
+void Game::UpdateModel(float dt)
 {
+	
 }
 
 
 
 void Game::ComposeFrame()
 {
-	/*
-	if (kframe == 0) {
-		start = std::chrono::steady_clock::now();
-	}
-	kframe++;
-	if (kframe >= 60) {
-		end = std::chrono::steady_clock::now();
-
-		std::chrono::duration<float> runtime = end - start;
-		durationSecond = runtime.count();
-
-		kframe = 0;
-
-
-		
-	}
-	text.drawfloat(durationSecond, 5, 5, Colors::White);
-	text.drawint(kframe, 5, 15, Colors::White);
-	*/
-
-	if (durationSecond == 0.0f) {
-		start = std::chrono::steady_clock::now();
-	}
-	end = std::chrono::steady_clock::now();
-	std::chrono::duration<float> runtime = end - start;
-	durationSecond = runtime.count();
-	kframe++;
-	if (durationSecond >= 1.0f) {
-		durationSecond = 0.0f;
-		k = kframe;
-		kframe = 0;
-		gfx.DrawCircle(gfx.ScreenWidth / 2, gfx.ScreenHeight / 2, 200, Colors::Red);
-	}
-	text.drawfloat(durationSecond, 5, 5, Colors::White);
-	text.drawint(kframe, 5, 15, Colors::White);
-
-
-	text.drawint(k,5, 25, Colors::White);
+	
 }
 
 

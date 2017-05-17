@@ -27,6 +27,7 @@
 #include <random>
 #include "Text.h"
 #include <chrono>
+#include "FrameTimer.h"
 
 
 class Game
@@ -38,7 +39,7 @@ public:
 	void Go();
 private:
 	void ComposeFrame();
-	void UpdateModel();
+	void UpdateModel(float dt);
 	
 	/********************************/
 	/*  User Functions              */
@@ -59,18 +60,20 @@ private:
 	std::uniform_int_distribution<int> vrange;
 	std::uniform_int_distribution<int> rgbrange;
 
-	std::chrono::steady_clock::time_point start;
-	std::chrono::steady_clock::time_point end;
-	float durationSecond=0.0f;
+	
 
 	Text nr,text;
-
+	FrameTimer ft;
 	int test = 0;
 	int x = 1, y = 1;
 	int kframe = 0;
 	int k = 0;
 
 	Color white = { 255,255,255 };
+
+	enum class state { red, green, yellow};
+	state r = state::green;
+	
 	/********************************/
 };
 
