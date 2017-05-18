@@ -377,6 +377,11 @@ void Graphics::DrawCircle(int x, int y, int r, Color c)
 	}
 }
 
+void Graphics::DrawCircle(const Vec2 & pos, int r, Color c)
+{
+	DrawCircle(int(pos.x), int(pos.y), r, c);
+}
+
 
 
 

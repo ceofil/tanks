@@ -15,7 +15,7 @@ void Ball::Draw( Graphics & gfx ) const
 void Ball::Update( float dt )
 {
 	pos += vel * dt;
-	DoWallCollision(RectF(Vec2(0.0f, 0.0f), Vec2(Graphics::ScreenWidth, Graphics::ScreenHeight)));
+	DoWallCollision(RectF(Vec2(0.0f, 0.0f), Vec2(float(Graphics::ScreenWidth), float(Graphics::ScreenHeight))));
 }
 
 // return: 0=nada 1=hit wall 2=hit bottom

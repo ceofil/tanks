@@ -29,6 +29,7 @@
 #include <chrono>
 #include "FrameTimer.h"
 #include "Ball.h"
+#include "Player.h"
 
 
 class Game
@@ -59,6 +60,7 @@ private:
 	FrameTimer ft;
 	Ball ball;
 	RectF wall;
+	Player p1;
 	
 	/********************************/
 };
