@@ -12,7 +12,7 @@ private:
 	static constexpr float speed = 200.0f;
 	static constexpr float rotationSpeed = 100.0f;
 	static constexpr float radius = 20.0f;
-	static constexpr float scopeRadius = 10.0f;
+	static constexpr float scopeRadius = 0.2f;
 	static constexpr float pi = 3.14159265f;
 	Vec2 AngleToVec2(const float& angle);
 

@@ -354,17 +354,21 @@ bool Graphics::insideScreen(int x, int y)
 	;
 }
 
-int Graphics::seglen(int x1, int y1, int x2, int y2)
+float Graphics::seglen(int x1, int y1, int x2, int y2)
 {
 	return
 		(
-			sqrt(
-				(x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1)
+			sqrt
+			(
+				float
+				(
+					(x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1)
+				)
 			)
 		);
 }
 
-void Graphics::DrawCircle(int x, int y, int r, Color c)
+void Graphics::DrawCircle(int x, int y, float r, Color c)
 {
 	for (int i = x - r; i <= x + r; i++) {
 		for (int j = y - r; j <= y + r; j++) {
@@ -377,7 +381,7 @@ void Graphics::DrawCircle(int x, int y, int r, Color c)
 	}
 }
 
-void Graphics::DrawCircle(const Vec2 & pos, int r, Color c)
+void Graphics::DrawCircle(const Vec2 & pos, float r, Color c)
 {
 	DrawCircle(int(pos.x), int(pos.y), r, c);
 }
