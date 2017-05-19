@@ -1,18 +1,19 @@
 #include "Player.h"
 #include <cmath>
 
-Player::Player(const Vec2 in_pos, const Vec2 in_dir)
+Player::Player(const Vec2 in_pos, const float in_angle)
 	:
 	pos(in_pos),
-	dir(in_dir)
+	angle (in_angle)
 {
+	dir = AngleToVec2(angle);
 }
 
-void Player::Draw(Graphics & gfx)
+void Player::Draw(Graphics & gfx) const
 {
 	gfx.DrawCircle(pos, int(radius), Colors::White);
 
-	Vec2 aim = pos + dir.GetNormalized() * radius;
+	Vec2 aim = pos + dir * radius;
 	gfx.DrawCircle(aim, int(radius) / 5, Colors::Red);
 }
 
@@ -26,24 +27,29 @@ void Player::Update(Keyboard & kbd, const float dt)
 	{
 		pos -= dir.GetNormalized() * speed * dt;
 	}
+
 	bool rotationHappened = false;
 	if (kbd.KeyIsPressed(VK_LEFT))
 	{
-		radian -= rotationSpeed * dt;
+		angle += rotationSpeed * dt;
 		rotationHappened = true;
 	}
 	else if (kbd.KeyIsPressed(VK_RIGHT))
 	{
-		radian += rotationSpeed * dt;
+		angle -= rotationSpeed * dt;
 		rotationHappened = true;
 	}
+
 	if (rotationHappened)
 	{
-		const float x = std::cos(radian * pi / 180.0f);
-		const float y = std::sin(radian * pi / 180.0f);
-		dir = Vec2(x, y).GetNormalized();
-
-		rotationHappened = false;
+		dir = AngleToVec2(angle);
 	}
 	
+}
+
+Vec2 Player::AngleToVec2(const float& angle)
+{
+	const float cos = std::cos(angle * pi / 180.0f);
+	const float sin = std::sin(angle * pi / 180.0f);
+	return Vec2(cos,-sin);  //because the framework y ascending from top to bottom
 }

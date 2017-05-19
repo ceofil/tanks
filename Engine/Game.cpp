@@ -31,7 +31,7 @@ Game::Game(MainWindow& wnd)
 	rng(rd()),
 	ball(Vec2(300.0f,300.0f),Vec2(1.0f,1.0f)),
 	wall(50.0f, 300.0f, 100.0f,150.0f),
-	p1(Vec2(400.0f,400.0f),Vec2(1.0f,0.0f))
+	p1(Vec2(400.0f,400.0f),45.0f)
 {	
 }
 
