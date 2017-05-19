@@ -370,8 +370,8 @@ float Graphics::seglen(int x1, int y1, int x2, int y2)
 
 void Graphics::DrawCircle(int x, int y, float r, Color c)
 {
-	for (int i = x - r; i <= x + r; i++) {
-		for (int j = y - r; j <= y + r; j++) {
+	for (int i = x - int(r); i <= x + int(r); i++) {
+		for (int j = y - int(r); j <= y + int(r); j++) {
 			if (insideScreen(i, j)) {
 				if (seglen(i, j, x, y) <= r) {
 					PutPixel(i, j, c);
