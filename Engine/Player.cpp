@@ -76,6 +76,21 @@ void Player::DoWallCollision(const RectF & wall, const Vec2& dir, const float dt
 	}
 }
 
+Vec2 Player::GetPos() const
+{
+	return pos;
+}
+
+Vec2 Player::GetDir() const
+{
+	return dir;
+}
+
+Vec2 Player::GetSpawnPoint() const
+{
+	return pos + dir * radius * 2.0f;
+}
+
 Vec2 Player::AngleToVec2(const float& angle)
 {
 	const float cos = std::cos(angle * pi / 180.0f);

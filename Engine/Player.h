@@ -11,6 +11,9 @@ public:
 	void Update(Keyboard& kbd, const float dt, RectF& wall);
 	RectF GetRect() const;
 	void DoWallCollision(const RectF& wall, const Vec2& dir, const float dt);
+	Vec2 GetPos() const;
+	Vec2 GetDir() const;
+	Vec2 GetSpawnPoint() const;
 private:
 	static constexpr float speed = 200.0f;
 	static constexpr float rotationSpeed = 100.0f;
