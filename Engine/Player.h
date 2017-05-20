@@ -2,12 +2,15 @@
 #include "Graphics.h"
 #include "Vec2.h"
 #include "Keyboard.h"
+#include "RectF.h"
 class Player
 {
 public:
 	Player(const Vec2 in_pos, const float in_angle);
 	void Draw(Graphics& gfx) const;
-	void Update(Keyboard& kbd, const float dt);
+	void Update(Keyboard& kbd, const float dt, RectF& wall);
+	RectF GetRect() const;
+	void DoWallCollision(const RectF& wall, const Vec2& dir, const float dt);
 private:
 	static constexpr float speed = 200.0f;
 	static constexpr float rotationSpeed = 100.0f;

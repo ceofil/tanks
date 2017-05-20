@@ -30,6 +30,7 @@
 #include "FrameTimer.h"
 #include "Ball.h"
 #include "Player.h"
+#include "RectF.h"
 
 
 class Game

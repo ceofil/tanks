@@ -11,23 +11,15 @@ Player::Player(const Vec2 in_pos, const float in_angle)
 
 void Player::Draw(Graphics & gfx) const
 {
-	gfx.DrawCircle(pos, int(radius), Colors::White);
+	gfx.DrawCircle(pos, radius, Color(200,200,200));
 
 	Vec2 aim = pos + dir * radius;
-	gfx.DrawCircle(aim, int(radius) / 5, Colors::Red);
+	gfx.DrawCircle(aim, radius * scopeRadius, Colors::Red);
 }
 
-void Player::Update(Keyboard & kbd, const float dt)
+void Player::Update(Keyboard & kbd, const float dt, RectF& wall)
 {
-	if (kbd.KeyIsPressed(VK_UP))
-	{
-		pos += dir.GetNormalized() * speed * dt;
-	}
-	else if (kbd.KeyIsPressed(VK_DOWN))
-	{
-		pos -= dir.GetNormalized() * speed * dt;
-	}
-
+	
 	bool rotationHappened = false;
 	if (kbd.KeyIsPressed(VK_LEFT))
 	{
@@ -45,6 +37,43 @@ void Player::Update(Keyboard & kbd, const float dt)
 		dir = AngleToVec2(angle);
 	}
 	
+	if (kbd.KeyIsPressed(VK_UP))
+	{
+		pos += dir * speed * dt;
+		DoWallCollision(wall, dir, dt);
+	}
+	else if (kbd.KeyIsPressed(VK_DOWN))
+	{
+		pos -= dir * speed * dt;
+		DoWallCollision(wall, dir*(-1.0f), dt);
+	}
+
+}
+
+RectF Player::GetRect() const
+{
+	return RectF(pos-Vec2(radius,radius),pos+Vec2(radius,radius));
+}
+
+void Player::DoWallCollision(const RectF & wall, const Vec2& dir, const float dt)
+{
+	const RectF rect = GetRect();
+	if (rect.IsOverlappingWith(wall))
+	{
+		if (std::signbit(dir.x) == std::signbit((pos - wall.GetCenter()).x))
+		{
+			pos.y -= dir.y * speed * dt;
+		}
+		else
+		{
+			if (pos.x > wall.left && pos.x < wall.right) {
+				pos.y -= dir.y * speed * dt;
+			}
+			else {
+				pos.x -= dir.x * speed * dt;
+			}
+		}
+	}
 }
 
 Vec2 Player::AngleToVec2(const float& angle)
