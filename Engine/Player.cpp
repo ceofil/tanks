@@ -17,16 +17,16 @@ void Player::Draw(Graphics & gfx) const
 	gfx.DrawCircle(aim, radius * scopeRadius, Colors::Red);
 }
 
-void Player::Update(Keyboard & kbd, const float dt, RectF& wall)
+void Player::Update(Keyboard& kbd, const float dt, RectF& wall, const int up, const int down, const int left, const int right)
 {
 	
 	bool rotationHappened = false;
-	if (kbd.KeyIsPressed(VK_LEFT))
+	if (kbd.KeyIsPressed(left))
 	{
 		angle += rotationSpeed * dt;
 		rotationHappened = true;
 	}
-	else if (kbd.KeyIsPressed(VK_RIGHT))
+	else if (kbd.KeyIsPressed(right))
 	{
 		angle -= rotationSpeed * dt;
 		rotationHappened = true;
@@ -37,12 +37,12 @@ void Player::Update(Keyboard & kbd, const float dt, RectF& wall)
 		dir = AngleToVec2(angle);
 	}
 	
-	if (kbd.KeyIsPressed(VK_UP))
+	if (kbd.KeyIsPressed(up))
 	{
 		pos += dir * speed * dt;
 		DoWallCollision(wall, dir, dt);
 	}
-	else if (kbd.KeyIsPressed(VK_DOWN))
+	else if (kbd.KeyIsPressed(down))
 	{
 		pos -= dir * speed * dt;
 		DoWallCollision(wall, dir*(-1.0f), dt);

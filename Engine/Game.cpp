@@ -31,7 +31,6 @@ Game::Game(MainWindow& wnd)
 	p1(Vec2(400.0f, 400.0f), 45.0f),
 	p2(Vec2(400.0f, 450.0f), 135.0f)
 {
-	p2.wasd = true;
 }
 
 void Game::Go()
@@ -61,7 +60,8 @@ void Game::UpdateModel(float dt)
 	}
 	else 
 	{
-		p1.Update(wnd.kbd, dt, wall);
+		p1.Update(wnd.kbd, dt, wall, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT);
+		p2.Update(wnd.kbd, dt, wall, 0x57, 0x53, 0x41, 0x44);
 
 
 		if (!wnd.kbd.KeyIsEmpty())
@@ -86,11 +86,6 @@ void Game::UpdateModel(float dt)
 				balls[i].Update(dt);
 			}
 		}
-
-
-
-
-		p1.Update(wnd.kbd, dt, wall);
 	}
 }
 
