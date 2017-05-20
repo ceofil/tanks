@@ -15,7 +15,12 @@ void Ball::Draw( Graphics & gfx ) const
 void Ball::Update( float dt )
 {
 	pos += vel * dt;
+	lifeTime -= dt;
 	DoWallCollision(RectF(Vec2(0.0f, 0.0f), Vec2(float(Graphics::ScreenWidth), float(Graphics::ScreenHeight))));
+	if(lifeTime <= 0.0f)
+	{
+		Destroy();
+	}
 }
 
 // return: 0=nada 1=hit wall 2=hit bottom
@@ -93,4 +98,23 @@ Vec2 Ball::GetPosition() const
 void Ball::SetDirection( const Vec2 & dir )
 {
 	vel = dir.GetNormalized() * speed;
+}
+
+bool Ball::IsSpawned()
+{
+	return spawned;
+}
+
+void Ball::Spawn(const Vec2 & pos_in, const Vec2 & dir_in, float lifetime_in)
+{
+	spawned = true;
+	pos = pos_in;
+	vel = dir_in * speed;
+	lifeTime = lifetime_in;
+}
+
+void Ball::Destroy()
+{
+	lifeTime = 0.0f;
+	spawned = false;
 }
