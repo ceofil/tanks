@@ -47,7 +47,9 @@ private:
 	/********************************/
 	/*  User Functions              */
 
-	
+	void CreateWalls();
+	void Player1_Shoot();
+	void Player2_Shoot();
 	/********************************/
 private:
 	MainWindow& wnd;
@@ -55,14 +57,20 @@ private:
 	/********************************/
 	/*  User Variables              */
 	
-
-	std::random_device rd;
-	std::mt19937 rng;
 	FrameTimer ft;
-	Ball ball;
 	RectF wall;
 	Player p1;
+	Player p2;
+	static constexpr int nBalls = 5;
+	Ball balls[2*nBalls];
+
+	static constexpr int nWalls = 5;
+	RectF walls[nWalls];
 	
+	bool gameIsStarted = false;
+	int indexWalls = -1;
+	bool RectStarted = false;
+	int x1 = 0, x2 = 0, y1 = 0, y2 = 0;
 	/********************************/
 };
 

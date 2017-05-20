@@ -14,6 +14,7 @@ public:
 	Vec2 GetPos() const;
 	Vec2 GetDir() const;
 	Vec2 GetSpawnPoint() const;
+	bool wasd = false;
 private:
 	static constexpr float speed = 200.0f;
 	static constexpr float rotationSpeed = 100.0f;

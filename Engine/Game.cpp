@@ -28,11 +28,10 @@ Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	rng(rd()),
-	ball(Vec2(300.0f,300.0f),Vec2(1.0f,1.0f)),
-	wall(300.0f, 400.0f, 200.0f,350.0f),
-	p1(Vec2(400.0f,400.0f),45.0f)
-{	
+	p1(Vec2(400.0f, 400.0f), 45.0f),
+	p2(Vec2(400.0f, 450.0f), 135.0f)
+{
+	p2.wasd = true;
 }
 
 void Game::Go()
@@ -52,21 +51,124 @@ void Game::Go()
 
 void Game::UpdateModel(float dt)
 {
-	ball.Update(dt);
-	ball.DoOutsideWallCollision(wall);
-	p1.Update(wnd.kbd, dt, wall);
+	if (!gameIsStarted)
+	{
+		CreateWalls();
+		if (wnd.kbd.KeyIsPressed(VK_RETURN))
+		{
+			gameIsStarted = true;
+		}
+	}
+	else 
+	{
+		p1.Update(wnd.kbd, dt, wall);
+
+
+		if (!wnd.kbd.KeyIsEmpty())
+		{
+			const auto e = wnd.kbd.ReadKey();
+			if (e.IsRelease())
+			{
+				if (e.GetCode() == VK_SPACE)
+				{
+					Player1_Shoot();
+				}
+				if (e.GetCode() == VK_CONTROL)
+				{
+					Player2_Shoot();
+				}
+			}
+		}
+		for (int i = 0; i < nBalls; i++)
+		{
+			if (balls[i].IsSpawned() == true)
+			{
+				balls[i].Update(dt);
+			}
+		}
+
+
+
+
+		p1.Update(wnd.kbd, dt, wall);
+	}
 }
 
 
 
 void Game::ComposeFrame()
 {
-	
-	ball.Draw(gfx);
-	gfx.DrawRectPoints(wall, Colors::White);
-	p1.Draw(gfx);
+	for (int i = 0; i <= indexWalls; i++)
+	{
+		gfx.DrawRectPoints(walls[i], Colors::White);
+	}
+	if (gameIsStarted)
+	{
+		for (int i = 0; i < nBalls; i++)
+		{
+			if (balls[i].IsSpawned())
+			{
+				balls[i].Draw(gfx);
+			}
+		}
+		gfx.DrawRectPoints(wall, Colors::White);
+		p1.Draw(gfx);
+	}
 }
 
 
 
 
+
+void Game::CreateWalls()
+{
+	if (wnd.mouse.LeftIsPressed())
+	{
+		if (!RectStarted)
+		{
+			RectStarted = true;
+			x1 = wnd.mouse.GetPosX();
+			y1 = wnd.mouse.GetPosY();
+		}
+		else
+		{
+			x2 = wnd.mouse.GetPosX();
+			y2 = wnd.mouse.GetPosY();
+		}
+		RectF rect = RectF(float(std::min(x1, x2)), float(std::max(x1, x2)), float(std::min(y1, y2)), float(std::max(y1, y2)));
+		gfx.DrawRectPoints(rect, Colors::Yellow);
+	}
+	else if (RectStarted)
+	{
+		RectStarted = false;
+		walls[++indexWalls] = RectF(float(std::min(x1, x2)), float(std::max(x1, x2)), float(std::min(y1, y2)), float(std::max(y1, y2)));
+		if (indexWalls >= nWalls - 1)
+		{
+			gameIsStarted = true;
+		}
+	}
+}
+
+void Game::Player1_Shoot()
+{
+	for (int i = 0; i < nBalls / 2; i++)
+	{
+		if (balls[i].IsSpawned() == false)
+		{
+			balls[i].Spawn(p1.GetSpawnPoint(), p1.GetDir(), 7.0f);
+			break;
+		}
+	}
+}
+
+void Game::Player2_Shoot()
+{
+	for (int i = nBalls / 2; i < nBalls; i++)
+	{
+		if (balls[i].IsSpawned() == false)
+		{
+			balls[i].Spawn(p1.GetSpawnPoint(), p2.GetDir(), 7.0f);
+			break;
+		}
+	}
+}
