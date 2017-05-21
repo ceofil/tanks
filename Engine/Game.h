@@ -50,6 +50,9 @@ private:
 	void CreateWalls();
 	void Player1_Shoot();
 	void Player2_Shoot();
+	void UpdateBalls(float dt);
+	void DrawBalls();
+	void DrawWalls();
 	/********************************/
 private:
 	MainWindow& wnd;
@@ -58,10 +61,9 @@ private:
 	/*  User Variables              */
 	
 	FrameTimer ft;
-	RectF wall;
 	Player p1;
 	Player p2;
-	static constexpr int nBalls = 5;
+	static constexpr int nBalls = 10;
 	Ball balls[2*nBalls];
 
 	static constexpr int nWalls = 5;

@@ -60,8 +60,8 @@ void Game::UpdateModel(float dt)
 	}
 	else 
 	{
-		p1.Update(wnd.kbd, dt, wall, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT);
-		p2.Update(wnd.kbd, dt, wall, 0x57, 0x53, 0x41, 0x44);
+		p1.Update(wnd.kbd, dt, walls, indexWalls, p2, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT);
+		p2.Update(wnd.kbd, dt, walls, indexWalls, p1, 0x57, 0x53, 0x41, 0x44);
 
 
 		if (!wnd.kbd.KeyIsEmpty())
@@ -79,13 +79,7 @@ void Game::UpdateModel(float dt)
 				}
 			}
 		}
-		for (int i = 0; i < nBalls; i++)
-		{
-			if (balls[i].IsSpawned() == true)
-			{
-				balls[i].Update(dt);
-			}
-		}
+		UpdateBalls(dt);
 	}
 }
 
@@ -93,21 +87,12 @@ void Game::UpdateModel(float dt)
 
 void Game::ComposeFrame()
 {
-	for (int i = 0; i <= indexWalls; i++)
-	{
-		gfx.DrawRectPoints(walls[i], Colors::White);
-	}
+	DrawWalls();
 	if (gameIsStarted)
 	{
-		for (int i = 0; i < nBalls; i++)
-		{
-			if (balls[i].IsSpawned())
-			{
-				balls[i].Draw(gfx);
-			}
-		}
-		gfx.DrawRectPoints(wall, Colors::White);
+		DrawBalls();
 		p1.Draw(gfx);
+		p2.Draw(gfx);
 	}
 }
 
@@ -162,8 +147,38 @@ void Game::Player2_Shoot()
 	{
 		if (balls[i].IsSpawned() == false)
 		{
-			balls[i].Spawn(p1.GetSpawnPoint(), p2.GetDir(), 7.0f);
+			balls[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 7.0f);
 			break;
 		}
+	}
+}
+
+void Game::UpdateBalls(float dt)
+{
+	for (int i = 0; i < nBalls; i++)
+	{
+		if (balls[i].IsSpawned() == true)
+		{
+			balls[i].Update(dt, walls, indexWalls);
+		}
+	}
+}
+
+void Game::DrawBalls()
+{
+	for (int i = 0; i < nBalls; i++)
+	{
+		if (balls[i].IsSpawned())
+		{
+			balls[i].Draw(gfx);
+		}
+	}
+}
+
+void Game::DrawWalls()
+{
+	for (int i = 0; i <= indexWalls; i++)
+	{
+		gfx.DrawRectPoints(walls[i], Colors::White);
 	}
 }
