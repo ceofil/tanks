@@ -60,8 +60,8 @@ void Game::UpdateModel(float dt)
 	}
 	else 
 	{
-		p1.Update(wnd.kbd, dt, walls, indexWalls, p2, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT);
-		p2.Update(wnd.kbd, dt, walls, indexWalls, p1, 0x57, 0x53, 0x41, 0x44);
+		p1.Update(wnd.kbd, dt, walls, indexWalls, p2, balls, nBalls, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT);
+		p2.Update(wnd.kbd, dt, walls, indexWalls, p1, balls, nBalls, 0x57, 0x53, 0x41, 0x44);
 
 
 		if (!wnd.kbd.KeyIsEmpty())

@@ -17,7 +17,10 @@ void Player::Draw(Graphics & gfx) const
 	gfx.DrawCircle(aim, radius * scopeRadius, Colors::Red);
 }
 
-void Player::Update(Keyboard& kbd, const float dt, RectF walls[], int indexWalls, Player& other, 
+void Player::Update(Keyboard& kbd, const float dt, 
+					RectF walls[], int indexWalls, 
+					Player& other, 
+					Ball balls[], int nBalls,
 					const int up, const int down, const int left, const int right)
 {
 	
@@ -54,6 +57,16 @@ void Player::Update(Keyboard& kbd, const float dt, RectF walls[], int indexWalls
 		for (int i = 0; i <= indexWalls; i++)
 		{
 			DoWallCollision(walls[i], dir*(-1.0f), dt);
+		}
+	}
+	for (int i = 0; i <= nBalls; i++)
+	{
+		if (balls[i].IsSpawned())
+		{
+			if (IsOverLappingWith(balls[i].GetPosition(), Ball::radius))
+			{
+				balls[i].Destroy();
+			}
 		}
 	}
 

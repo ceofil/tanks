@@ -25,10 +25,10 @@ public:
 	bool IsSpawned();
 	void Spawn(const Vec2& pos_in,const Vec2& dir_in, float lifetime_in);
 	void Destroy();
+	static constexpr float radius = 7.0f;
 private:
 	float lifeTime = 0.0f;
 	bool spawned = false;
-	static constexpr float radius = 7.0f;
 	float speed = 200.0f;
 	Vec2 pos;
 	Vec2 vel;

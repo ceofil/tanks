@@ -3,13 +3,17 @@
 #include "Vec2.h"
 #include "Keyboard.h"
 #include "RectF.h"
+#include "Ball.h"
 class Player
 {
 public:
 	Player(const Vec2 in_pos, const float in_angle);
 	void Draw(Graphics& gfx) const;
-	void Update(Keyboard& kbd, const float dt, RectF walls[], int indexWalls, Player& other, 
-							const int up, const int down, const int left, const int right);
+	void Update(Keyboard& kbd, const float dt, 
+				RectF walls[], int indexWalls, 
+				Player& other, 
+				Ball balls[], int nBalls,
+				const int up, const int down, const int left, const int right);
 	RectF GetRect() const;
 	void DoWallCollision(const RectF& wall, const Vec2 dir, const float dt);
 	Vec2 GetPos() const;
