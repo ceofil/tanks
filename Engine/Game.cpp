@@ -54,26 +54,7 @@ void Game::UpdateModel(float dt)
 	if (!gameIsStarted)
 	{
 		CreateWalls();
-		if (!wnd.kbd.KeyIsEmpty())
-		{
-			const auto e = wnd.kbd.ReadKey();
-			if (e.IsRelease())
-			{
-				if (e.GetCode() == VK_SPACE)
-				{
-					if (!standardApplied)
-					{
-						standardApplied = true;
-						walls[++indexWalls] = RectF(150.0f, float(Graphics::ScreenWidth) - 150.0f, 125.0f, 175.0f);
-						walls[++indexWalls] = RectF(150.0f, float(Graphics::ScreenWidth) - 150.0f, float(Graphics::ScreenHeight) - 175.0f, float(Graphics::ScreenHeight) - 125.0f);
-					}
-				}
-				if (e.GetCode() == VK_RETURN)
-				{
-					gameIsStarted = true;
-				}
-			}
-		}
+		
 		if (wnd.kbd.KeyIsPressed(VK_RETURN))
 		{
 			gameIsStarted = true;
@@ -153,6 +134,43 @@ void Game::CreateWalls()
 		if (indexWalls >= nWalls - 1)
 		{
 			gameIsStarted = true;
+		}
+	}
+	
+	
+	if (wnd.kbd.KeyIsPressed(VK_CONTROL))
+	{
+		const auto e = wnd.kbd.ReadKey();
+		if (e.IsRelease())
+		{
+			if (e.GetCode() == 0x5A)
+			{
+				if (indexWalls >= 0)
+				{
+					indexWalls--;
+				}
+			}
+		}
+	}
+	else if (!wnd.kbd.KeyIsEmpty())
+	{
+		const auto e = wnd.kbd.ReadKey();
+		if (e.IsRelease())
+		{
+			if (e.GetCode() == VK_SPACE)
+			{
+				if (!standardApplied)
+				{
+					standardApplied = true;
+					walls[++indexWalls] = RectF(150.0f, float(Graphics::ScreenWidth) - 150.0f, 125.0f, 175.0f);
+					walls[++indexWalls] = RectF(150.0f, float(Graphics::ScreenWidth) - 150.0f, float(Graphics::ScreenHeight) - 175.0f, float(Graphics::ScreenHeight) - 125.0f);
+				}
+			}
+
+			if (e.GetCode() == VK_RETURN)
+			{
+				gameIsStarted = true;
+			}
 		}
 	}
 }
