@@ -16,7 +16,7 @@ void Ball::Update( float dt, RectF walls[], int indexWalls)
 {
 	pos += vel * dt;
 	lifeTime -= dt;
-	DoWallCollision(RectF(Vec2(0.0f, 0.0f), Vec2(float(Graphics::ScreenWidth), float(Graphics::ScreenHeight))));
+	DoWallCollision(RectF(Vec2(0.0f, 0.0f), Vec2(float(Graphics::ScreenWidth), float(Graphics::ScreenHeight-35))));
 	for (int i = 0; i <= indexWalls; i++)
 	{
 		DoOutsideWallCollision(walls[i]);
