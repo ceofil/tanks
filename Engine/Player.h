@@ -19,6 +19,8 @@ public:
 	Vec2 GetPos() const;
 	Vec2 GetDir() const;
 	Vec2 GetSpawnPoint() const;
+	int GetScore();
+	void AddToScore();
 	bool IsOverLappingWith(const Vec2 other, float r);
 	void DoPlayerCollision(Player& other, float dt);
 	void Move(Vec2 dir_in, float dt);
@@ -29,6 +31,7 @@ private:
 	static constexpr float scopeRadius = 0.2f;
 	static constexpr float pi = 3.14159265f;
 	Vec2 AngleToVec2(const float& angle);
+	int score = 0;
 
 	Vec2 pos;
 	Vec2 dir;

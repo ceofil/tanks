@@ -107,14 +107,15 @@ void Game::CreateWalls()
 		if (!RectStarted)
 		{
 			RectStarted = true;
-			x1 = wnd.mouse.GetPosX();
-			y1 = wnd.mouse.GetPosY();
+			x1 = x2 = wnd.mouse.GetPosX();
+			y1 = y2 = wnd.mouse.GetPosY();
 		}
 		else
 		{
 			x2 = wnd.mouse.GetPosX();
 			y2 = wnd.mouse.GetPosY();
 		}
+
 		RectF rect = RectF(float(std::min(x1, x2)), float(std::max(x1, x2)), float(std::min(y1, y2)), float(std::max(y1, y2)));
 		gfx.DrawRectPoints(rect, Colors::Yellow);
 	}
@@ -122,6 +123,7 @@ void Game::CreateWalls()
 	{
 		RectStarted = false;
 		walls[++indexWalls] = RectF(float(std::min(x1, x2)), float(std::max(x1, x2)), float(std::min(y1, y2)), float(std::max(y1, y2)));
+		x1 = x2 = y1 = y2 = 0;
 		if (indexWalls >= nWalls - 1)
 		{
 			gameIsStarted = true;

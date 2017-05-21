@@ -61,8 +61,10 @@ private:
 	/*  User Variables              */
 	
 	FrameTimer ft;
+	
 	Player p1;
 	Player p2;
+
 	static constexpr int nBalls = 10;
 	Ball balls[2*nBalls];
 

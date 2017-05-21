@@ -66,6 +66,7 @@ void Player::Update(Keyboard& kbd, const float dt,
 			if (IsOverLappingWith(balls[i].GetPosition(), Ball::radius))
 			{
 				balls[i].Destroy();
+				other.AddToScore();
 			}
 		}
 	}
@@ -99,6 +100,10 @@ void Player::DoWallCollision(const RectF & wall, const Vec2 dir, const float dt)
 				else
 				{
 					pos.x -= dir.x * speed * dt;
+					if (std::abs(dir.y) > std::abs(dir.x))
+					{
+						pos.y -= dir.y * speed * dt;
+					}
 				}
 				
 			}
@@ -119,6 +124,16 @@ Vec2 Player::GetDir() const
 Vec2 Player::GetSpawnPoint() const
 {
 	return pos + dir * radius * 2.0f;
+}
+
+int Player::GetScore()
+{
+	return score;
+}
+
+void Player::AddToScore()
+{
+	score++;
 }
 
 bool Player::IsOverLappingWith(const Vec2 other, float r)
