@@ -12,22 +12,26 @@ void Ball::Draw( Graphics & gfx ) const
 	SpriteCodex::DrawBall( pos,gfx );
 }
 
-void Ball::Update( float dt )
+void Ball::Update( float dt, RectF walls[], int indexWalls)
 {
 	pos += vel * dt;
 	lifeTime -= dt;
 	DoWallCollision(RectF(Vec2(0.0f, 0.0f), Vec2(float(Graphics::ScreenWidth), float(Graphics::ScreenHeight))));
+	for (int i = 0; i <= indexWalls; i++)
+	{
+		DoOutsideWallCollision(walls[i]);
+	}
+
 	if(lifeTime <= 0.0f)
 	{
 		Destroy();
 	}
 }
 
-// return: 0=nada 1=hit wall 2=hit bottom
 void  Ball::DoWallCollision( const RectF & walls )
 {
 	const RectF rect = GetRect();
-	if( rect.left < walls.left )
+	if( rect.left < walls.left ) 
 	{
 		pos.x += walls.left - rect.left;
 		ReboundX();
@@ -52,19 +56,26 @@ void  Ball::DoWallCollision( const RectF & walls )
 void Ball::DoOutsideWallCollision(const RectF & wall)
 {
 	const RectF rect = GetRect();
-	if (rect.IsOverlappingWith(wall))
+	if (rect.IsContainedBy(wall))
 	{
-		if (std::signbit(vel.x) == std::signbit((pos - wall.GetCenter()).x))
+		Destroy();
+	}
+	else
+	{
+		if (rect.IsOverlappingWith(wall))
 		{
-			ReboundY();
-		}
-		else
-		{
-			if (pos.x > wall.left && pos.x < wall.right) {
+			if (std::signbit(vel.x) == std::signbit((pos - wall.GetCenter()).x))
+			{
 				ReboundY();
 			}
-			else {
-				ReboundX();
+			else
+			{
+				if (pos.x > wall.left && pos.x < wall.right) {
+					ReboundY();
+				}
+				else {
+					ReboundX();
+				}
 			}
 		}
 	}

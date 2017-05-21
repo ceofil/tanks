@@ -12,7 +12,7 @@ public:
 	Ball() = default;
 	Ball( const Vec2& pos_in,const Vec2& dir_in );
 	void Draw( Graphics& gfx ) const;
-	void Update( float dt );
+	void Update(float dt, RectF walls[], int indexWalls);
 	// return: 0=nada 1=hit wall 2=hit bottom
 	void DoWallCollision( const RectF& walls );
 	void DoOutsideWallCollision(const RectF& wall);
@@ -29,7 +29,7 @@ private:
 	float lifeTime = 0.0f;
 	bool spawned = false;
 	static constexpr float radius = 7.0f;
-	float speed = 400.0f;
+	float speed = 200.0f;
 	Vec2 pos;
 	Vec2 vel;
 };
