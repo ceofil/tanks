@@ -29,8 +29,8 @@ Game::Game(MainWindow& wnd)
 	wnd(wnd),
 	gfx(wnd),
 	txt(gfx,0,0,4,4,800,600),
-	p1(Vec2(400.0f, 400.0f), 45.0f),
-	p2(Vec2(400.0f, 450.0f), 135.0f)
+	p1(Vec2(450.0f, 300.0f), 0.0f, Color(255, 80, 80)),
+	p2(Vec2(350.0f, 300.0f), 180.0f, Color(51, 204, 51))
 {
 }
 
@@ -54,6 +54,26 @@ void Game::UpdateModel(float dt)
 	if (!gameIsStarted)
 	{
 		CreateWalls();
+		if (!wnd.kbd.KeyIsEmpty())
+		{
+			const auto e = wnd.kbd.ReadKey();
+			if (e.IsRelease())
+			{
+				if (e.GetCode() == VK_SPACE)
+				{
+					if (!standardApplied)
+					{
+						standardApplied = true;
+						walls[++indexWalls] = RectF(150.0f, Graphics::ScreenWidth - 150.0f, 125.0f, 175.0f);
+						walls[++indexWalls] = RectF(150.0f, Graphics::ScreenWidth - 150.0f, Graphics::ScreenHeight - 175.0f, Graphics::ScreenHeight - 125.0f);
+					}
+				}
+				if (e.GetCode() == VK_RETURN)
+				{
+					gameIsStarted = true;
+				}
+			}
+		}
 		if (wnd.kbd.KeyIsPressed(VK_RETURN))
 		{
 			gameIsStarted = true;
@@ -61,6 +81,10 @@ void Game::UpdateModel(float dt)
 	}
 	else 
 	{
+		if (wnd.kbd.KeyIsPressed(VK_ESCAPE))
+		{
+			gameIsStarted = false;
+		}
 		p1.Update(wnd.kbd, dt, walls, indexWalls, p2, balls, nBalls, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT);
 		p2.Update(wnd.kbd, dt, walls, indexWalls, p1, balls, nBalls, 0x57, 0x53, 0x41, 0x44);
 
@@ -88,6 +112,7 @@ void Game::UpdateModel(float dt)
 
 void Game::ComposeFrame()
 {
+	gfx.FillScreenWith(Color(50, 50, 50));
 	DrawWalls();
 	p1.Draw(gfx);
 	p2.Draw(gfx);
@@ -95,7 +120,6 @@ void Game::ComposeFrame()
 	{
 		DrawScore();
 		DrawBalls();
-		
 	}
 }
 
@@ -112,6 +136,7 @@ void Game::CreateWalls()
 			RectStarted = true;
 			x1 = x2 = wnd.mouse.GetPosX();
 			y1 = y2 = wnd.mouse.GetPosY();
+			indexWalls++;
 		}
 		else
 		{
@@ -119,14 +144,11 @@ void Game::CreateWalls()
 			y2 = wnd.mouse.GetPosY();
 		}
 
-		RectF rect = RectF(float(std::min(x1, x2)), float(std::max(x1, x2)), float(std::min(y1, y2)), float(std::max(y1, y2)));
-		gfx.DrawRectPoints(rect, Colors::Yellow);
+		walls[indexWalls] = RectF(float(std::min(x1, x2)), float(std::max(x1, x2)), float(std::min(y1, y2)), float(std::max(y1, y2)));
 	}
 	else if (RectStarted)
 	{
 		RectStarted = false;
-		walls[++indexWalls] = RectF(float(std::min(x1, x2)), float(std::max(x1, x2)), float(std::min(y1, y2)), float(std::max(y1, y2)));
-		x1 = x2 = y1 = y2 = 0;
 		if (indexWalls >= nWalls - 1)
 		{
 			gameIsStarted = true;
@@ -136,24 +158,50 @@ void Game::CreateWalls()
 
 void Game::Player1_Shoot()
 {
-	for (int i = 0; i < nBalls / 2; i++)
+	bool test = true;
+	Vec2 spawnPoint = p1.GetSpawnPoint();
+	for (int i = 0; i < indexWalls; i++)
 	{
-		if (balls[i].IsSpawned() == false)
+		if (walls[i].ContainsPoint(spawnPoint))
 		{
-			balls[i].Spawn(p1.GetSpawnPoint(), p1.GetDir(), 7.0f);
+			test = false;
 			break;
+		}
+	}
+	if (test)
+	{
+		for (int i = 0; i < nBalls / 2; i++)
+		{
+			if (balls[i].IsSpawned() == false)
+			{
+				balls[i].Spawn(p1.GetSpawnPoint(), p1.GetDir(), 7.0f);
+				break;
+			}
 		}
 	}
 }
 
 void Game::Player2_Shoot()
 {
-	for (int i = nBalls / 2; i < nBalls; i++)
+	bool test = true;
+	Vec2 spawnPoint = p1.GetSpawnPoint();
+	for (int i = 0; i < indexWalls; i++)
 	{
-		if (balls[i].IsSpawned() == false)
+		if (walls[i].ContainsPoint(spawnPoint))
 		{
-			balls[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 7.0f);
+			test = false;
 			break;
+		}
+	}
+	if (test)
+	{
+		for (int i = nBalls / 2; i < nBalls; i++)
+		{
+			if (balls[i].IsSpawned() == false)
+			{
+				balls[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 7.0f);
+				break;
+			}
 		}
 	}
 }
@@ -184,7 +232,7 @@ void Game::DrawWalls()
 {
 	for (int i = 0; i <= indexWalls; i++)
 	{
-		gfx.DrawRectPoints(walls[i], Colors::White);
+		gfx.DrawRectPoints(walls[i], Color(100,100,100));
 	}
 }
 
@@ -193,15 +241,20 @@ void Game::DrawScore()
 	const int sw = Graphics::ScreenWidth;
 	const int sh = Graphics::ScreenHeight;
 	const int hSpacing = 10;
+	const int wSpacing = 50;
 	const int height = 20;
 	
-	const int width1 = p1.GetHP() * 300 / 10;
-	gfx.DrawRectPoints(50, sh - hSpacing - height, 50 + width1, sh - hSpacing, Colors::Green);
-	gfx.DrawRectStrokeOnly(50, sh - hSpacing - height, 50 + 300, sh - hSpacing, Colors::Green);
-	txt.drawintRight(p1.GetHP(), 50 / 4 - 1, (sh - hSpacing) / 4 - 6, Colors::White);
-	
-	const int width2 = p2.GetHP() * 300 / 10;
-	gfx.DrawRectPoints(sw - 50 - width2, sh - hSpacing - height, sw - 50, sh - hSpacing, Colors::Green);
-	gfx.DrawRectStrokeOnly(sw - 50 - 300, sh - hSpacing - height, sw - 50, sh - hSpacing, Colors::Green);
-	txt.drawint(p2.GetHP(), (sw - 50)/4 + 3, (sh - hSpacing) / 4 - 6, Colors::White);
+	const int width2 = p1.GetHP() * 285 / 10;
+	gfx.DrawRectPoints(sw - wSpacing - width2, sh - hSpacing - height, sw - wSpacing, sh - hSpacing, p1.GetColor());
+	gfx.DrawRectStrokeOnly(sw - wSpacing - 285, sh - hSpacing - height, sw - wSpacing, sh - hSpacing, p1.GetColor());
+	txt.drawint(p1.GetHP(), (sw - wSpacing)/4 + 3, (sh - hSpacing) / 4 - 6, Colors::White);
+
+	const int width1 = p2.GetHP() * 285 / 10;
+	gfx.DrawRectPoints(wSpacing, sh - hSpacing - height, wSpacing + width1, sh - hSpacing, p2.GetColor());
+	gfx.DrawRectStrokeOnly(wSpacing, sh - hSpacing - height, wSpacing + 285, sh - hSpacing, p2.GetColor());
+	txt.drawintRight(p2.GetHP(), wSpacing / 4 - 1, (sh - hSpacing) / 4 - 6, Colors::White);
+
+	gfx.DrawRectPoints(345, sh - hSpacing - height - 11, sw - 345, sh - 3, Color(80, 80, 80));
+	txt.drawint(p2.GetScore(), (wSpacing + 300) / 4 + 1, (sh - hSpacing) / 4 - 6, Colors::White);
+	txt.drawintRight(p1.GetScore(), (sw - wSpacing - 300) / 4 + 1, (sh - hSpacing) / 4 - 6, Colors::White);
 }

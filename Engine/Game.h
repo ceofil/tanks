@@ -75,7 +75,8 @@ private:
 	bool gameIsStarted = false;
 	int indexWalls = -1;
 	bool RectStarted = false;
-	int x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+	int x1, x2, y1, y2;
+	bool standardApplied = false;
 	/********************************/
 };
 

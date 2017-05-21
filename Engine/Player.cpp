@@ -1,22 +1,22 @@
 #include "Player.h"
 #include <cmath>
 
-Player::Player(const Vec2 in_pos, const float in_angle)
+Player::Player(const Vec2 in_pos, const float in_angle, Color c)
 	:
 	startPos(in_pos),
-	angle (in_angle)
+	angle (in_angle),
+	c(c)
 {
 	startDir =  AngleToVec2(angle);
-	dir = startDir;
-	pos = startPos;
+	NewRound();
 }
 
 void Player::Draw(Graphics & gfx) const
 {
-	gfx.DrawCircle(pos, radius, Color(200,200,200));
+	gfx.DrawCircle(pos, radius, c);
 
 	Vec2 aim = pos + dir * radius;
-	gfx.DrawCircle(aim, radius * scopeRadius, Colors::Red);
+	gfx.DrawCircle(aim, radius * scopeRadius, Colors::White);
 }
 
 void Player::Update(Keyboard& kbd, const float dt, 
@@ -77,11 +77,19 @@ void Player::Update(Keyboard& kbd, const float dt,
 					NewRound();
 					other.NewRound();
 					other.AddToScore();
+					for (int j = 0; j <= nBalls; j++)
+					{
+						if (balls[j].IsSpawned())
+						{
+							balls[j].Destroy();
+						}
+					}
 				}
 			}
 		}
 	}
 
+	KeepInsideScreen(RectF(Vec2(0.0f, 0.0f), Vec2(float(Graphics::ScreenWidth), float(Graphics::ScreenHeight - 35))));
 }
 
 RectF Player::GetRect() const
@@ -137,12 +145,17 @@ Vec2 Player::GetSpawnPoint() const
 	return pos + dir * radius * 2.0f;
 }
 
-int Player::GetScore()
+Color Player::GetColor() const
+{
+	return c;
+}
+
+int Player::GetScore() const
 {
 	return score;
 }
 
-int Player::GetHP()
+int Player::GetHP() const
 {
 	return HP;
 }
@@ -175,6 +188,27 @@ void Player::DoPlayerCollision(Player & other, float dt)
 	while (IsOverLappingWith(otherPos, radius))
 	{
 		Move(  dir * -1.0f , dt);
+	}
+}
+
+void Player::KeepInsideScreen(const RectF & walls)
+{
+	const RectF rect = GetRect();
+	if (rect.left < walls.left)
+	{
+		pos.x += walls.left - rect.left;
+	}
+	else if (rect.right > walls.right)
+	{
+		pos.x -= rect.right - walls.right;
+	}
+	if (rect.top < walls.top)
+	{
+		pos.y += walls.top - rect.top;
+	}
+	else if (rect.bottom > walls.bottom)
+	{
+		pos.y -= rect.bottom - walls.bottom;
 	}
 }
 

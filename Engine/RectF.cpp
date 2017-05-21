@@ -48,3 +48,8 @@ Vec2 RectF::GetCenter() const
 {
 	return Vec2( (left + right) / 2.0f,(top + bottom) / 2.0f );
 }
+
+bool RectF::ContainsPoint(Vec2 point)
+{
+	return point.x>=left && point.x <= right && point.y > top && point.y < bottom;
+}

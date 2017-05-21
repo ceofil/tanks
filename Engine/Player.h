@@ -7,26 +7,30 @@
 class Player
 {
 public:
-	Player(const Vec2 in_pos, const float in_angle);
+	Player(const Vec2 in_pos, const float in_angle, Color c);
 	void Draw(Graphics& gfx) const;
 	void Update(Keyboard& kbd, const float dt, 
 				RectF walls[], int indexWalls, 
 				Player& other, 
 				Ball balls[], int nBalls,
 				const int up, const int down, const int left, const int right);
-	RectF GetRect() const;
+public:
 	void DoWallCollision(const RectF& wall, const Vec2 dir, const float dt);
+	bool IsOverLappingWith(const Vec2 other, float r);
+	void DoPlayerCollision(Player& other, float dt);
+	void KeepInsideScreen(const RectF& screen);
+	void NewRound();
+	void Move(Vec2 dir_in, float dt);
+	void AddToScore();
+	void LowerHP(int dmg);
+public:
+	RectF GetRect() const;
 	Vec2 GetPos() const;
 	Vec2 GetDir() const;
 	Vec2 GetSpawnPoint() const;
-	int GetScore();
-	int GetHP();
-	void AddToScore();
-	void LowerHP(int dmg);
-	void NewRound();
-	bool IsOverLappingWith(const Vec2 other, float r);
-	void DoPlayerCollision(Player& other, float dt);
-	void Move(Vec2 dir_in, float dt);
+	int GetScore() const;
+	int GetHP() const;
+	Color GetColor() const;
 private:
 	static constexpr float speed = 200.0f;
 	static constexpr float rotationSpeed = 100.0f;
@@ -34,10 +38,11 @@ private:
 	static constexpr float scopeRadius = 0.2f;
 	static constexpr float pi = 3.14159265f;
 	Vec2 AngleToVec2(const float& angle);
-	int score = 0;
 	static constexpr int maxHP = 10;
-	int HP = maxHP;
-
+	int HP;
+	int score = 0;
+	Color c;
+private:
 	Vec2 pos;
 	Vec2 dir;
 	float angle;

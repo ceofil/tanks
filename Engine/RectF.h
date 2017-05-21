@@ -14,6 +14,7 @@ public:
 	static RectF FromCenter( const Vec2& center,float halfWidth,float halfHeight );
 	RectF GetExpanded( float offset ) const;
 	Vec2 GetCenter() const;
+	bool ContainsPoint(Vec2 point);
 public:
 	float left;
 	float right;
