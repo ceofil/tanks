@@ -16,11 +16,19 @@ public:
 				const int up, const int down, const int left, const int right);
 public:
 	void DoWallCollision(const RectF& wall, const Vec2 dir, const float dt);
+	void KeepInsideScreen(const RectF& screen);
+
 	//checks to see if the circle of the player is overlapping with another circle
 	bool IsOverLappingWith(const Vec2 other, float r); 
+
+	//this undoes the movement that caused the players to overlap
 	void DoPlayerCollision(Player& other, float dt);
-	void KeepInsideScreen(const RectF& screen);
+	
+
+	//when one player drops below 1 HP the other player gains a point and everything gets reset
 	void NewRound();
+
+
 	void Move(Vec2 dir_in, float dt);
 	void AddToScore();
 	void LowerHP(int dmg);
@@ -36,7 +44,7 @@ private:
 	static constexpr float speed = 200.0f;
 	static constexpr float rotationSpeed = 100.0f;
 	static constexpr float radius = 20.0f;
-	static constexpr float scopeRadius = 0.2f;
+	static constexpr float scopeRadius = 0.2f; //ratio
 	static constexpr float pi = 3.14159265f;
 	Vec2 AngleToVec2(const float& angle);
 	static constexpr int maxHP = 10;
@@ -48,7 +56,7 @@ private:
 	Vec2 dir;
 	float angle;
 
-	//so I can what to set it to in NewRound();
+	//so I have what to set it to in NewRound();
 	Vec2 startPos;
 	Vec2 startDir;
 };

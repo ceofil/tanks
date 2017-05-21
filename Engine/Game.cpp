@@ -67,7 +67,7 @@ void Game::UpdateModel(float dt)
 			gameIsStarted = false;
 		}
 		p1.Update(wnd.kbd, dt, walls, indexWalls, p2, balls, nBalls, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT);
-		p2.Update(wnd.kbd, dt, walls, indexWalls, p1, balls, nBalls, 0x57, 0x53, 0x41, 0x44);
+		p2.Update(wnd.kbd, dt, walls, indexWalls, p1, balls, nBalls, 0x57, 0x53, 0x41, 0x44);  //w,a,s,d
 
 
 		if (!wnd.kbd.KeyIsEmpty())
@@ -132,6 +132,7 @@ void Game::CreateWalls()
 		}
 		//this should be on the else if but I want it to be drawn while it's created
 		RectF rect = RectF(float(std::min(x1, x2)), float(std::max(x1, x2)), float(std::min(y1, y2)), float(std::max(y1, y2)));
+		//can't create wall if it is overlapping with a player
 		if(!rect.IsOverlappingWith(p1.GetRect()) && !rect.IsOverlappingWith(p2.GetRect()) )
 		{ 
 			walls[indexWalls] = rect;
@@ -199,6 +200,7 @@ void Game::Player1_Shoot()
 			break;
 		}
 	}
+	//spawns a ball at the aim point of the player with the direction of the player 
 	if (test)
 	{
 		for (int i = 0; i < nBalls / 2; i++)
