@@ -382,6 +382,11 @@ float Graphics::seglen(int x1, int y1, int x2, int y2)
 		);
 }
 
+void Graphics::FillScreenWith(Color c)
+{
+	DrawRectPoints(0, 0, ScreenWidth, ScreenHeight,c);
+}
+
 void Graphics::DrawCircle(int x, int y, float r, Color c)
 {
 	for (int i = x - int(r); i <= x + int(r); i++) {

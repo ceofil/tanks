@@ -66,6 +66,7 @@ public:
 	void DrawCircle(const Vec2& pos, float r, Color c);
 	bool insideScreen(int x, int y);
 	float seglen(int x1, int y1, int x2, int y2);
+	void FillScreenWith(Color c);
 	~Graphics();
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain>				pSwapChain;
