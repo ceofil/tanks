@@ -16,7 +16,8 @@ public:
 				const int up, const int down, const int left, const int right);
 public:
 	void DoWallCollision(const RectF& wall, const Vec2 dir, const float dt);
-	bool IsOverLappingWith(const Vec2 other, float r);
+	//checks to see if the circle of the player is overlapping with another circle
+	bool IsOverLappingWith(const Vec2 other, float r); 
 	void DoPlayerCollision(Player& other, float dt);
 	void KeepInsideScreen(const RectF& screen);
 	void NewRound();
@@ -46,6 +47,8 @@ private:
 	Vec2 pos;
 	Vec2 dir;
 	float angle;
+
+	//so I can what to set it to in NewRound();
 	Vec2 startPos;
 	Vec2 startDir;
 };

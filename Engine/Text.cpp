@@ -616,7 +616,7 @@ void Text::drawstring(char string[], int xpoz, int ypoz, Color c)
 
 void Text::drawstringCenter(char string[], int xpoz, int ypoz, Color c)
 {
-	drawstring(string, xpoz - strlen(string) / 2, ypoz, c);
+	drawstring(string, xpoz - strlen(string) * 5 / 2, ypoz, c);
 }
 
 

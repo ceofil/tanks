@@ -103,6 +103,10 @@ void Game::ComposeFrame()
 		DrawScore();
 		DrawBalls();
 	}
+	else
+	{
+		txt.drawstringCenter("pause", 400/4, 70/4, Color(200,200,200));
+	}
 }
 
 
@@ -111,6 +115,7 @@ void Game::ComposeFrame()
 
 void Game::CreateWalls()
 {
+	//creating RectF's by clicking and releasing
 	if (wnd.mouse.LeftIsPressed())
 	{
 		if (!RectStarted)
@@ -125,8 +130,13 @@ void Game::CreateWalls()
 			x2 = wnd.mouse.GetPosX();
 			y2 = wnd.mouse.GetPosY();
 		}
-
-		walls[indexWalls] = RectF(float(std::min(x1, x2)), float(std::max(x1, x2)), float(std::min(y1, y2)), float(std::max(y1, y2)));
+		//this should be on the else if but I want it to be drawn while it's created
+		RectF rect = RectF(float(std::min(x1, x2)), float(std::max(x1, x2)), float(std::min(y1, y2)), float(std::max(y1, y2)));
+		if(!rect.IsOverlappingWith(p1.GetRect()) && !rect.IsOverlappingWith(p2.GetRect()) )
+		{ 
+			walls[indexWalls] = rect;
+		}
+		
 	}
 	else if (RectStarted)
 	{
@@ -137,7 +147,7 @@ void Game::CreateWalls()
 		}
 	}
 	
-	
+	//CTRL - Z
 	if (wnd.kbd.KeyIsPressed(VK_CONTROL))
 	{
 		const auto e = wnd.kbd.ReadKey();
@@ -157,6 +167,7 @@ void Game::CreateWalls()
 		const auto e = wnd.kbd.ReadKey();
 		if (e.IsRelease())
 		{
+			//creating some standard walls if you're lazy 
 			if (e.GetCode() == VK_SPACE)
 			{
 				if (!standardApplied)
@@ -177,6 +188,7 @@ void Game::CreateWalls()
 
 void Game::Player1_Shoot()
 {
+	//so balls don't spawn inside walls
 	bool test = true;
 	Vec2 spawnPoint = p1.GetSpawnPoint();
 	for (int i = 0; i < indexWalls; i++)
@@ -257,22 +269,26 @@ void Game::DrawWalls()
 
 void Game::DrawScore()
 {
+	//don't try to understand this...just a bunch of aligning 
 	const int sw = Graphics::ScreenWidth;
 	const int sh = Graphics::ScreenHeight;
 	const int hSpacing = 10;
 	const int wSpacing = 50;
 	const int height = 20;
 	
+	//p1 HP 
 	const int width2 = p1.GetHP() * 285 / 10;
 	gfx.DrawRectPoints(sw - wSpacing - width2, sh - hSpacing - height, sw - wSpacing, sh - hSpacing, p1.GetColor());
 	gfx.DrawRectStrokeOnly(sw - wSpacing - 285, sh - hSpacing - height, sw - wSpacing, sh - hSpacing, p1.GetColor());
 	txt.drawint(p1.GetHP(), (sw - wSpacing)/4 + 3, (sh - hSpacing) / 4 - 6, Colors::White);
 
+	//p2 HP
 	const int width1 = p2.GetHP() * 285 / 10;
 	gfx.DrawRectPoints(wSpacing, sh - hSpacing - height, wSpacing + width1, sh - hSpacing, p2.GetColor());
 	gfx.DrawRectStrokeOnly(wSpacing, sh - hSpacing - height, wSpacing + 285, sh - hSpacing, p2.GetColor());
 	txt.drawintRight(p2.GetHP(), wSpacing / 4 - 1, (sh - hSpacing) / 4 - 6, Colors::White);
 
+	//p1 and p2 scores
 	gfx.DrawRectPoints(345, sh - hSpacing - height - 11, sw - 345, sh - 3, Color(80, 80, 80));
 	txt.drawint(p2.GetScore(), (wSpacing + 300) / 4 + 1, (sh - hSpacing) / 4 - 6, Colors::White);
 	txt.drawintRight(p1.GetScore(), (sw - wSpacing - 300) / 4 + 1, (sh - hSpacing) / 4 - 6, Colors::White);
