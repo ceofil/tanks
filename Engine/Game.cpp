@@ -64,8 +64,8 @@ void Game::UpdateModel(float dt)
 					if (!standardApplied)
 					{
 						standardApplied = true;
-						walls[++indexWalls] = RectF(150.0f, Graphics::ScreenWidth - 150.0f, 125.0f, 175.0f);
-						walls[++indexWalls] = RectF(150.0f, Graphics::ScreenWidth - 150.0f, Graphics::ScreenHeight - 175.0f, Graphics::ScreenHeight - 125.0f);
+						walls[++indexWalls] = RectF(150.0f, float(Graphics::ScreenWidth) - 150.0f, 125.0f, 175.0f);
+						walls[++indexWalls] = RectF(150.0f, float(Graphics::ScreenWidth) - 150.0f, float(Graphics::ScreenHeight) - 175.0f, float(Graphics::ScreenHeight) - 125.0f);
 					}
 				}
 				if (e.GetCode() == VK_RETURN)
@@ -94,14 +94,15 @@ void Game::UpdateModel(float dt)
 			const auto e = wnd.kbd.ReadKey();
 			if (e.IsRelease())
 			{
-				if (e.GetCode() == VK_SPACE)
+				if (e.GetCode() == VK_CONTROL)
 				{
 					Player1_Shoot();
 				}
-				if (e.GetCode() == VK_CONTROL)
+				if (e.GetCode() == VK_SPACE)
 				{
 					Player2_Shoot();
 				}
+				
 			}
 		}
 		UpdateBalls(dt);

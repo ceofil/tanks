@@ -142,7 +142,7 @@ Vec2 Player::GetDir() const
 
 Vec2 Player::GetSpawnPoint() const
 {
-	return pos + dir * radius * 2.0f;
+	return pos + dir * (radius+Ball::radius);
 }
 
 Color Player::GetColor() const
