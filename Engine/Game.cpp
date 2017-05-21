@@ -69,7 +69,6 @@ void Game::UpdateModel(float dt)
 		p1.Update(wnd.kbd, dt, walls, indexWalls, p2, balls, nBalls, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT);
 		p2.Update(wnd.kbd, dt, walls, indexWalls, p1, balls, nBalls, 0x57, 0x53, 0x41, 0x44);  //w,a,s,d
 
-
 		if (!wnd.kbd.KeyIsEmpty())
 		{
 			const auto e = wnd.kbd.ReadKey();
@@ -83,7 +82,6 @@ void Game::UpdateModel(float dt)
 				{
 					Player2_Shoot();
 				}
-				
 			}
 		}
 		UpdateBalls(dt);
