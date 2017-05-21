@@ -8,12 +8,16 @@ class Player
 public:
 	Player(const Vec2 in_pos, const float in_angle);
 	void Draw(Graphics& gfx) const;
-	void Update(Keyboard& kbd, const float dt, RectF& wall, const int up, const int down, const int left, const int right);
+	void Update(Keyboard& kbd, const float dt, RectF walls[], int indexWalls, Player& other, 
+							const int up, const int down, const int left, const int right);
 	RectF GetRect() const;
-	void DoWallCollision(const RectF& wall, const Vec2& dir, const float dt);
+	void DoWallCollision(const RectF& wall, const Vec2 dir, const float dt);
 	Vec2 GetPos() const;
 	Vec2 GetDir() const;
 	Vec2 GetSpawnPoint() const;
+	bool IsOverLappingWith(const Vec2 other, float r);
+	void DoPlayerCollision(Player& other, float dt);
+	void Move(Vec2 dir_in, float dt);
 private:
 	static constexpr float speed = 200.0f;
 	static constexpr float rotationSpeed = 100.0f;
