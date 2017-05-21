@@ -53,22 +53,23 @@ private:
 	void UpdateBalls(float dt);
 	void DrawBalls();
 	void DrawWalls();
+	void DrawScore();
 	/********************************/
 private:
 	MainWindow& wnd;
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
-	
+
 	FrameTimer ft;
-	
+	Text txt;
 	Player p1;
 	Player p2;
 
 	static constexpr int nBalls = 10;
-	Ball balls[2*nBalls];
+	Ball balls[nBalls];
 
-	static constexpr int nWalls = 5;
+	static constexpr int nWalls = 10;
 	RectF walls[nWalls];
 	
 	bool gameIsStarted = false;

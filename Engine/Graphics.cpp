@@ -344,6 +344,20 @@ void Graphics::DrawRectPoints(const RectF& rect, Color c)
 	DrawRectPoints(int(rect.left), int(rect.top), int(rect.right), int(rect.bottom), c);
 }
 
+void Graphics::DrawRectStrokeOnly(int x1, int y1, int x2, int y2, Color c)
+{
+	for (int i = x1; i <= x2; i++)
+	{
+		PutPixel(i, y1, c);
+		PutPixel(i, y2, c);
+	}
+	for (int i = y1; i <= y2; i++)
+	{
+		PutPixel(x1, i, c);
+		PutPixel(x2, i, c);
+	}
+}
+
 bool Graphics::insideScreen(int x, int y)
 {
 	return

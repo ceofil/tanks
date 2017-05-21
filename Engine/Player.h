@@ -20,7 +20,10 @@ public:
 	Vec2 GetDir() const;
 	Vec2 GetSpawnPoint() const;
 	int GetScore();
+	int GetHP();
 	void AddToScore();
+	void LowerHP(int dmg);
+	void NewRound();
 	bool IsOverLappingWith(const Vec2 other, float r);
 	void DoPlayerCollision(Player& other, float dt);
 	void Move(Vec2 dir_in, float dt);
@@ -32,8 +35,12 @@ private:
 	static constexpr float pi = 3.14159265f;
 	Vec2 AngleToVec2(const float& angle);
 	int score = 0;
+	static constexpr int maxHP = 10;
+	int HP = maxHP;
 
 	Vec2 pos;
 	Vec2 dir;
 	float angle;
+	Vec2 startPos;
+	Vec2 startDir;
 };

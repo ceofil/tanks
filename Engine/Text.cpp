@@ -192,6 +192,16 @@ void Text::drawint(int n, int x, int y, Color c)
 	
 }
 
+void Text::drawintCenter(int n, int x, int y, Color c)
+{
+	drawint(n, x - nrcifre(n) / 2 * 5, y, c);
+}
+
+void Text::drawintRight(int n, int x, int y, Color c)
+{
+	drawint(n, x - nrcifre(n) * 5, y, c);
+}
+
 void Text::drawfloat(float n, int x, int y, Color c)
 {
 	//7 decimals at most
@@ -602,6 +612,11 @@ void Text::drawstring(char string[], int xpoz, int ypoz, Color c)
 		}
 
 	}
+}
+
+void Text::drawstringCenter(char string[], int xpoz, int ypoz, Color c)
+{
+	drawstring(string, xpoz - strlen(string) / 2, ypoz, c);
 }
 
 

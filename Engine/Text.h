@@ -25,6 +25,8 @@ public:
 		void draw0(int xpoz, int ypoz, Color c);
 
 		void drawint(int n, int x, int y, Color c);
+		void drawintCenter(int n, int x, int y, Color c);
+		void drawintRight(int n, int x, int y, Color c);
 		void drawfloat(float n, int x, int y, Color c);
 		int nrcifre(int n);
 
@@ -56,6 +58,7 @@ public:
 		void drawU(int xpoz, int ypoz, Color c);
 
 		void drawstring(char string[],int xpoz,int ypoz,Color c);
+		void drawstringCenter(char string[], int xpoz, int ypoz, Color c);
 	
 	int getw();
 	int geth();

@@ -3,10 +3,12 @@
 
 Player::Player(const Vec2 in_pos, const float in_angle)
 	:
-	pos(in_pos),
+	startPos(in_pos),
 	angle (in_angle)
 {
-	dir = AngleToVec2(angle);
+	startDir =  AngleToVec2(angle);
+	dir = startDir;
+	pos = startPos;
 }
 
 void Player::Draw(Graphics & gfx) const
@@ -66,7 +68,16 @@ void Player::Update(Keyboard& kbd, const float dt,
 			if (IsOverLappingWith(balls[i].GetPosition(), Ball::radius))
 			{
 				balls[i].Destroy();
-				other.AddToScore();
+				if (HP > 1)
+				{
+					LowerHP(1);
+				}
+				else
+				{
+					NewRound();
+					other.NewRound();
+					other.AddToScore();
+				}
 			}
 		}
 	}
@@ -131,9 +142,26 @@ int Player::GetScore()
 	return score;
 }
 
+int Player::GetHP()
+{
+	return HP;
+}
+
 void Player::AddToScore()
 {
 	score++;
+}
+
+void Player::LowerHP(int dmg)
+{
+	HP -= dmg;
+}
+
+void Player::NewRound()
+{
+	pos = startPos;
+	dir = startDir;
+	HP = maxHP;
 }
 
 bool Player::IsOverLappingWith(const Vec2 other, float r)

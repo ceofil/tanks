@@ -28,6 +28,7 @@ Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
+	txt(gfx,0,0,4,4,800,600),
 	p1(Vec2(400.0f, 400.0f), 45.0f),
 	p2(Vec2(400.0f, 450.0f), 135.0f)
 {
@@ -88,11 +89,13 @@ void Game::UpdateModel(float dt)
 void Game::ComposeFrame()
 {
 	DrawWalls();
+	p1.Draw(gfx);
+	p2.Draw(gfx);
 	if (gameIsStarted)
 	{
+		DrawScore();
 		DrawBalls();
-		p1.Draw(gfx);
-		p2.Draw(gfx);
+		
 	}
 }
 
@@ -183,4 +186,22 @@ void Game::DrawWalls()
 	{
 		gfx.DrawRectPoints(walls[i], Colors::White);
 	}
+}
+
+void Game::DrawScore()
+{
+	const int sw = Graphics::ScreenWidth;
+	const int sh = Graphics::ScreenHeight;
+	const int hSpacing = 10;
+	const int height = 20;
+	
+	const int width1 = p1.GetHP() * 300 / 10;
+	gfx.DrawRectPoints(50, sh - hSpacing - height, 50 + width1, sh - hSpacing, Colors::Green);
+	gfx.DrawRectStrokeOnly(50, sh - hSpacing - height, 50 + 300, sh - hSpacing, Colors::Green);
+	txt.drawintRight(p1.GetHP(), 50 / 4 - 1, (sh - hSpacing) / 4 - 6, Colors::White);
+	
+	const int width2 = p2.GetHP() * 300 / 10;
+	gfx.DrawRectPoints(sw - 50 - width2, sh - hSpacing - height, sw - 50, sh - hSpacing, Colors::Green);
+	gfx.DrawRectStrokeOnly(sw - 50 - 300, sh - hSpacing - height, sw - 50, sh - hSpacing, Colors::Green);
+	txt.drawint(p2.GetHP(), (sw - 50)/4 + 3, (sh - hSpacing) / 4 - 6, Colors::White);
 }
