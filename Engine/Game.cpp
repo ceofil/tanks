@@ -204,7 +204,7 @@ void Game::Player1_Shoot()
 	{
 		for (int i = 0; i < nBalls / 2; i++)
 		{
-			if (balls[i].IsSpawned() == false)
+			if (balls[i].IsSpawned() == false && balls[i].GetLifeTime() <= 0.0f)
 			{
 				balls[i].Spawn(p1.GetSpawnPoint(), p1.GetDir(), 5.0f);
 				break;
@@ -217,7 +217,7 @@ void Game::Player2_Shoot()
 {
 	bool test = true;
 	Vec2 spawnPoint = p1.GetSpawnPoint();
-	for (int i = 0; i < indexWalls; i++)
+	for (int i = 0; i < indexWalls; i++ )
 	{
 		if (walls[i].ContainsPoint(spawnPoint))
 		{
@@ -229,7 +229,7 @@ void Game::Player2_Shoot()
 	{
 		for (int i = nBalls / 2; i < nBalls; i++)
 		{
-			if (balls[i].IsSpawned() == false)
+			if (balls[i].IsSpawned() == false && balls[i].GetLifeTime() <= 0.0f)
 			{
 				balls[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 5.0f);
 				break;
@@ -245,6 +245,13 @@ void Game::UpdateBalls(float dt)
 		if (balls[i].IsSpawned() == true)
 		{
 			balls[i].Update(dt, walls, indexWalls);
+		}
+		else 
+		{
+			if (balls[i].GetLifeTime() > 0.0f)
+			{
+				balls[i].LowerLifeTime(dt);
+			}
 		}
 	}
 }
@@ -300,7 +307,7 @@ int Game::CountBallsLeft(int player)
 	int counter = 0;
 	for (int i = (player - 1) * nBalls / 2; i < player * nBalls / 2; i++)
 	{
-		if (!balls[i].IsSpawned())
+		if (balls[i].GetLifeTime()<=0.0f)
 		{
 			counter++;
 		}

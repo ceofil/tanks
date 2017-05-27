@@ -116,6 +116,11 @@ bool Ball::IsSpawned()
 	return spawned;
 }
 
+float Ball::GetLifeTime()
+{
+	return lifeTime;
+}
+
 void Ball::Spawn(const Vec2 & pos_in, const Vec2 & dir_in, float lifetime_in)
 {
 	spawned = true;
@@ -126,6 +131,10 @@ void Ball::Spawn(const Vec2 & pos_in, const Vec2 & dir_in, float lifetime_in)
 
 void Ball::Destroy()
 {
-	lifeTime = 0.0f;
 	spawned = false;
+}
+
+void Ball::LowerLifeTime(float dt)
+{
+	lifeTime -= dt;
 }

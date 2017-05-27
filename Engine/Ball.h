@@ -19,12 +19,14 @@ public:
 	void ReboundY();
 	void Spawn(const Vec2& pos_in, const Vec2& dir_in, float lifetime_in);
 	void Destroy();
+	void LowerLifeTime(float dt);
 public:
 	RectF GetRect() const;
 	Vec2 GetVelocity() const;
 	Vec2 GetPosition() const;
 	void SetDirection( const Vec2& dir );
 	bool IsSpawned();
+	float GetLifeTime();
 	static constexpr float radius = 7.0f;
 private:
 	bool spawned = false;
