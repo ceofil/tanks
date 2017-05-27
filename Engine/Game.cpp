@@ -100,6 +100,7 @@ void Game::ComposeFrame()
 	{
 		DrawScore();
 		DrawBalls();
+		DrawBallsLeft();
 	}
 	else
 	{
@@ -205,7 +206,7 @@ void Game::Player1_Shoot()
 		{
 			if (balls[i].IsSpawned() == false)
 			{
-				balls[i].Spawn(p1.GetSpawnPoint(), p1.GetDir(), 7.0f);
+				balls[i].Spawn(p1.GetSpawnPoint(), p1.GetDir(), 5.0f);
 				break;
 			}
 		}
@@ -230,7 +231,7 @@ void Game::Player2_Shoot()
 		{
 			if (balls[i].IsSpawned() == false)
 			{
-				balls[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 7.0f);
+				balls[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 5.0f);
 				break;
 			}
 		}
@@ -292,4 +293,36 @@ void Game::DrawScore()
 	gfx.DrawRectPoints(345, sh - hSpacing - height - 11, sw - 345, sh - 3, Color(80, 80, 80));
 	txt.drawint(p2.GetScore(), (wSpacing + 300) / 4 + 1, (sh - hSpacing) / 4 - 6, Colors::White);
 	txt.drawintRight(p1.GetScore(), (sw - wSpacing - 300) / 4 + 1, (sh - hSpacing) / 4 - 6, Colors::White);
+}
+
+int Game::CountBallsLeft(int player)
+{
+	int counter = 0;
+	for (int i = (player - 1) * nBalls / 2; i < player * nBalls / 2; i++)
+	{
+		if (!balls[i].IsSpawned())
+		{
+			counter++;
+		}
+	}
+	return counter;
+}
+
+void Game::DrawBallsLeft()
+{
+	const int spacing = 8;
+
+	int ballsLeft = CountBallsLeft(1);
+	for (int i = 0; i < ballsLeft; i++)
+	{
+		gfx.DrawCircle(450 - i * spacing, Graphics::ScreenHeight - 50, 3, p1.GetColor());
+	}
+
+	ballsLeft = CountBallsLeft(2);
+	for (int i = 0; i < ballsLeft; i++)
+	{
+		gfx.DrawCircle(350 + i * spacing, Graphics::ScreenHeight - 50, 3, p2.GetColor());
+	}
+	
+
 }

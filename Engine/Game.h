@@ -31,6 +31,7 @@
 #include "Ball.h"
 #include "Player.h"
 #include "RectF.h"
+#include "SpriteCodex.h"
 
 
 class Game
@@ -54,6 +55,9 @@ private:
 	void DrawBalls();
 	void DrawWalls();
 	void DrawScore();
+
+	int CountBallsLeft(int player);
+	void DrawBallsLeft();
 	/********************************/
 private:
 	MainWindow& wnd;
