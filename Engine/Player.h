@@ -24,10 +24,8 @@ public:
 	//this undoes the movement that caused the players to overlap
 	void DoPlayerCollision(Player& other, float dt);
 	
-
 	//when one player drops below 1 HP the other player gains a point and everything gets reset
 	void NewRound();
-
 
 	void Move(Vec2 dir_in, float dt);
 	void AddToScore();
@@ -57,6 +55,6 @@ private:
 	float angle;
 
 	//so I have what to set it to in NewRound();
-	Vec2 startPos;
-	Vec2 startDir;
+	Vec2 startPos; 
+	float startAngle;
 };

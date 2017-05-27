@@ -4,10 +4,9 @@
 Player::Player(const Vec2 in_pos, const float in_angle, Color c)
 	:
 	startPos(in_pos),
-	angle (in_angle),
+	startAngle(in_angle),
 	c(c)
 {
-	startDir =  AngleToVec2(angle);
 	NewRound();
 }
 
@@ -26,22 +25,17 @@ void Player::Update(Keyboard& kbd, const float dt,
 					const int up, const int down, const int left, const int right)
 {
 	
-	bool rotationHappened = false;
 	if (kbd.KeyIsPressed(left))
 	{
 		angle += rotationSpeed * dt;
-		rotationHappened = true;
+		dir = AngleToVec2(angle);
 	}
 	else if (kbd.KeyIsPressed(right))
 	{
 		angle -= rotationSpeed * dt;
-		rotationHappened = true;
-	}
-
-	if (rotationHappened)
-	{
 		dir = AngleToVec2(angle);
 	}
+
 	
 	if (kbd.KeyIsPressed(up))
 	{
@@ -173,7 +167,8 @@ void Player::LowerHP(int dmg)
 void Player::NewRound()
 {
 	pos = startPos;
-	dir = startDir;
+	angle = startAngle;
+	dir = AngleToVec2(angle);
 	HP = maxHP;
 }
 
