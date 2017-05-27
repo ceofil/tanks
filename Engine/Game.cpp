@@ -122,7 +122,10 @@ void Game::CreateWalls()
 			RectStarted = true;
 			x1 = x2 = wnd.mouse.GetPosX();
 			y1 = y2 = wnd.mouse.GetPosY();
-			indexWalls++;
+			if(indexWalls + 1 < nWalls)
+			{ 
+				indexWalls++;
+			}
 		}
 		else
 		{
@@ -141,10 +144,6 @@ void Game::CreateWalls()
 	else if (RectStarted)
 	{
 		RectStarted = false;
-		if (indexWalls >= nWalls - 1)
-		{
-			gameIsStarted = true;
-		}
 	}
 	
 	//CTRL - Z
@@ -167,17 +166,6 @@ void Game::CreateWalls()
 		const auto e = wnd.kbd.ReadKey();
 		if (e.IsRelease())
 		{
-			//creating some standard walls if you're lazy 
-			if (e.GetCode() == VK_SPACE)
-			{
-				if (!standardApplied)
-				{
-					standardApplied = true;
-					walls[++indexWalls] = RectF(150.0f, float(Graphics::ScreenWidth) - 150.0f, 125.0f, 175.0f);
-					walls[++indexWalls] = RectF(150.0f, float(Graphics::ScreenWidth) - 150.0f, float(Graphics::ScreenHeight) - 175.0f, float(Graphics::ScreenHeight) - 125.0f);
-				}
-			}
-
 			if (e.GetCode() == VK_RETURN)
 			{
 				gameIsStarted = true;
