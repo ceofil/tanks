@@ -140,6 +140,8 @@
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RectF.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SpriteCodex.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="ChiliException.h" />
@@ -159,6 +161,7 @@
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RectF.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SpriteCodex.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="DXErr.cpp" />
