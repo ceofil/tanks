@@ -54,6 +54,7 @@ private:
 	void UpdateBalls(float dt);
 	void DrawBalls();
 	void DrawWalls();
+	void UndoWall();
 	void DrawScore();
 
 	int CountBallsLeft(int player);
@@ -80,7 +81,6 @@ private:
 	int indexWalls = -1;
 	bool RectStarted = false;
 	int x1, x2, y1, y2;
-	bool standardApplied = false;
 	/********************************/
 };
 

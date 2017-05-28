@@ -145,33 +145,7 @@ void Game::CreateWalls()
 	{
 		RectStarted = false;
 	}
-	
-	//CTRL - Z
-	if (wnd.kbd.KeyIsPressed(VK_CONTROL))
-	{
-		const auto e = wnd.kbd.ReadKey();
-		if (e.IsRelease())
-		{
-			if (e.GetCode() == 0x5A)
-			{
-				if (indexWalls >= 0)
-				{
-					indexWalls--;
-				}
-			}
-		}
-	}
-	else if (!wnd.kbd.KeyIsEmpty())
-	{
-		const auto e = wnd.kbd.ReadKey();
-		if (e.IsRelease())
-		{
-			if (e.GetCode() == VK_RETURN)
-			{
-				gameIsStarted = true;
-			}
-		}
-	}
+	UndoWall();
 }
 
 void Game::Player1_Shoot()
@@ -260,6 +234,25 @@ void Game::DrawWalls()
 	for (int i = 0; i <= indexWalls; i++)
 	{
 		gfx.DrawRectPoints(walls[i], Color(100,100,100));
+	}
+}
+
+void Game::UndoWall()
+{
+	//CTRL - Z
+	if (wnd.kbd.KeyIsPressed(VK_CONTROL))
+	{
+		const auto e = wnd.kbd.ReadKey();
+		if (e.IsRelease())
+		{
+			if (e.GetCode() == 0x5A)
+			{
+				if (indexWalls >= 0)
+				{
+					indexWalls--;
+				}
+			}
+		}
 	}
 }
 
