@@ -5,6 +5,7 @@
 #include "RectF.h"
 #include "SpriteCodex.h"
 #include <chrono>
+#include "Sound.h"
 
 class Ball
 {
@@ -12,9 +13,9 @@ public:
 	Ball() = default;
 	Ball( const Vec2& pos_in,const Vec2& dir_in );
 	void Draw( Graphics& gfx ) const;
-	void Update(float dt, RectF walls[], int indexWalls);
-	void DoWallCollision( const RectF& walls );
-	void DoOutsideWallCollision(const RectF& wall);
+	void Update(float dt, RectF walls[], int indexWalls, Sound& wallBounceSound);
+	void DoWallCollision( const RectF& walls, Sound& wallBounceSound);
+	void DoOutsideWallCollision(const RectF& wall, Sound& wallBounceSound);
 	void ReboundX();
 	void ReboundY();
 	void Spawn(const Vec2& pos_in, const Vec2& dir_in, float lifetime_in);

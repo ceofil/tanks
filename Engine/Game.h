@@ -32,6 +32,7 @@
 #include "Player.h"
 #include "RectF.h"
 #include "SpriteCodex.h"
+#include "Sound.h"
 
 
 class Game
@@ -70,6 +71,8 @@ private:
 	Text txt;
 	Player p1;
 	Player p2;
+	Sound wallBounceSound;
+	Sound popSound;
 
 	static constexpr int nBalls = 10;
 	Ball balls[nBalls];

@@ -12,14 +12,14 @@ void Ball::Draw( Graphics & gfx ) const
 	SpriteCodex::DrawBall( pos,gfx );
 }
 
-void Ball::Update( float dt, RectF walls[], int indexWalls)
+void Ball::Update( float dt, RectF walls[], int indexWalls, Sound& wallBounceSound)
 {
 	pos += vel * dt;
 	lifeTime -= dt;
-	DoWallCollision(RectF(Vec2(0.0f, 0.0f), Vec2(float(Graphics::ScreenWidth), float(Graphics::ScreenHeight-35))));
+	DoWallCollision(RectF(Vec2(0.0f, 0.0f), Vec2(float(Graphics::ScreenWidth), float(Graphics::ScreenHeight-35))), wallBounceSound);
 	for (int i = 0; i <= indexWalls; i++)
 	{
-		DoOutsideWallCollision(walls[i]);
+		DoOutsideWallCollision(walls[i], wallBounceSound);
 	}
 
 	if(lifeTime <= 0.0f)
@@ -28,32 +28,36 @@ void Ball::Update( float dt, RectF walls[], int indexWalls)
 	}
 }
 
-void  Ball::DoWallCollision( const RectF & walls )
+void  Ball::DoWallCollision( const RectF & walls, Sound& wallBounceSound)
 {
 	const RectF rect = GetRect();
 	if( rect.left < walls.left ) 
 	{
 		pos.x += walls.left - rect.left;
-		ReboundX();
+		ReboundX(); 
+		wallBounceSound.Play(1.0f, 0.3f);
 	}
 	else if( rect.right > walls.right )
 	{
 		pos.x -= rect.right - walls.right;
 		ReboundX();
+		wallBounceSound.Play(1.0f, 0.3f);
 	}
 	if( rect.top < walls.top )
 	{
 		pos.y += walls.top - rect.top;
 		ReboundY();
+		wallBounceSound.Play(1.0f, 0.3f);
 	}
 	else if( rect.bottom > walls.bottom )
 	{
 		pos.y -= rect.bottom - walls.bottom;
 		ReboundY();
+		wallBounceSound.Play(1.0f, 0.3f);
 	}
 }
 
-void Ball::DoOutsideWallCollision(const RectF & wall)
+void Ball::DoOutsideWallCollision(const RectF & wall, Sound& wallBounceSound)
 {
 	const RectF rect = GetRect();
 	if (rect.IsContainedBy(wall))
@@ -64,6 +68,7 @@ void Ball::DoOutsideWallCollision(const RectF & wall)
 	{
 		if (rect.IsOverlappingWith(wall))
 		{
+			wallBounceSound.Play(1.0f,0.3f);
 			if (std::signbit(vel.x) == std::signbit((pos - wall.GetCenter()).x))
 			{
 				ReboundY();

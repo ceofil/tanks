@@ -30,7 +30,9 @@ Game::Game(MainWindow& wnd)
 	gfx(wnd),
 	txt(gfx,0,0,4,4,800,600),
 	p1(Vec2(450.0f, 300.0f), 0.0f, Color(255, 80, 80)),
-	p2(Vec2(350.0f, 300.0f), 180.0f, Color(51, 204, 51))
+	p2(Vec2(350.0f, 300.0f), 180.0f, Color(51, 204, 51)),
+	wallBounceSound(L"ballBounce.wav"),
+	popSound(L"pop.wav")
 {
 }
 
@@ -77,10 +79,12 @@ void Game::UpdateModel(float dt)
 				if (e.GetCode() == VK_CONTROL)
 				{
 					Player1_Shoot();
+					popSound.Play();
 				}
 				if (e.GetCode() == VK_SPACE)
 				{
 					Player2_Shoot();
+					popSound.Play();
 				}
 			}
 		}
@@ -206,7 +210,7 @@ void Game::UpdateBalls(float dt)
 	{
 		if (balls[i].IsSpawned() == true)
 		{
-			balls[i].Update(dt, walls, indexWalls);
+			balls[i].Update(dt, walls, indexWalls, wallBounceSound);
 		}
 		else 
 		{
