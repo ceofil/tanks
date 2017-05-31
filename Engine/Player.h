@@ -4,6 +4,7 @@
 #include "Keyboard.h"
 #include "RectF.h"
 #include "Ball.h"
+#include "Sound.h"
 class Player
 {
 public:
@@ -57,4 +58,5 @@ private:
 	//so I have what to set it to in NewRound();
 	Vec2 startPos; 
 	float startAngle;
+	Sound hit;
 };

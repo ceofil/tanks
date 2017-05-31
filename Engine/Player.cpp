@@ -5,7 +5,8 @@ Player::Player(const Vec2 in_pos, const float in_angle, Color c)
 	:
 	startPos(in_pos),
 	startAngle(in_angle),
-	c(c)
+	c(c),
+	hit(L"punch.wav")
 {
 	NewRound();
 }
@@ -61,6 +62,7 @@ void Player::Update(Keyboard& kbd, const float dt,
 		{
 			if (IsOverLappingWith(balls[i].GetPosition(), Ball::radius))
 			{
+				hit.Play(1.0f, 0.2f);
 				balls[i].Destroy();
 				if (HP > 1)
 				{
