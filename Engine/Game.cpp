@@ -79,12 +79,10 @@ void Game::UpdateModel(float dt)
 				if (e.GetCode() == VK_CONTROL)
 				{
 					Player1_Shoot();
-					popSound.Play();
 				}
 				if (e.GetCode() == VK_SPACE)
 				{
 					Player2_Shoot();
-					popSound.Play();
 				}
 			}
 		}
@@ -173,6 +171,7 @@ void Game::Player1_Shoot()
 			if (balls[i].IsSpawned() == false && balls[i].GetLifeTime() <= 0.0f)
 			{
 				balls[i].Spawn(p1.GetSpawnPoint(), p1.GetDir(), 5.0f);
+				popSound.Play(1.0f, 0.3f);
 				break;
 			}
 		}
@@ -198,6 +197,7 @@ void Game::Player2_Shoot()
 			if (balls[i].IsSpawned() == false && balls[i].GetLifeTime() <= 0.0f)
 			{
 				balls[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 5.0f);
+				popSound.Play(1.0f, 0.3f);
 				break;
 			}
 		}
