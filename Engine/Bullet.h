@@ -28,11 +28,11 @@ public:
 	void SetDirection( const Vec2& dir );
 	bool IsSpawned();
 	float GetLifeTime();
-	static constexpr float radius = 7.0f;
+	static constexpr float radius = 2.5f;
 private:
 	bool spawned = false;
 	float lifeTime = 0.0f;
-	float speed = 400.0f;
+	float speed = 1200.0f;
 	Vec2 pos;
 	Vec2 vel;
 };

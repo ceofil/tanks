@@ -111,7 +111,6 @@ void Game::ComposeFrame()
 	{
 		txt.drawstringCenter("pause", 400/4, 70/4, Color(200,200,200));
 	}
-	
 }
 
 
@@ -174,7 +173,7 @@ void Game::Player1_Shoot()
 		{
 			if (bullets[i].IsSpawned() == false && bullets[i].GetLifeTime() <= 0.0f)
 			{
-				bullets[i].Spawn(p1.GetSpawnPoint(), p1.GetDir(), 5.0f);
+				bullets[i].Spawn(p1.GetSpawnPoint(), p1.GetDir(), 1.0f);
 				popSound.Play(1.0f, 0.3f);
 				break;
 			}
@@ -200,7 +199,7 @@ void Game::Player2_Shoot()
 		{
 			if (bullets[i].IsSpawned() == false && bullets[i].GetLifeTime() <= 0.0f)
 			{
-				bullets[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 5.0f);
+				bullets[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 1.0f);
 				popSound.Play(1.0f, 0.3f);
 				break;
 			}

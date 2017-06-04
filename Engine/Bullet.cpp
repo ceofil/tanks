@@ -9,7 +9,7 @@ Bullet::Bullet( const Vec2 & pos_in,const Vec2 & dir_in )
 
 void Bullet::Draw( Graphics & gfx ) const
 {
-	gfx.DrawCircle(pos, 3.0f, Colors::White);
+	gfx.DrawCircle(pos, radius, Colors::White);
 }
 
 void Bullet::Update( float dt, RectF walls[], int indexWalls, Sound& wallBounceSound)
