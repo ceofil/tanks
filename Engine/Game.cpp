@@ -108,6 +108,7 @@ void Game::ComposeFrame()
 	{
 		txt.drawstringCenter("pause", 400/4, 70/4, Color(200,200,200));
 	}
+	gfx.DrawCircleStrokeOnly(400, 300, 100.0f, 5.0f, Color(0,100,255));
 }
 
 

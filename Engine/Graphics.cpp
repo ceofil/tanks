@@ -405,6 +405,21 @@ void Graphics::DrawCircle(const Vec2 & pos, float r, Color c)
 	DrawCircle(int(pos.x), int(pos.y), r, c);
 }
 
+void Graphics::DrawCircleStrokeOnly(int x, int y, float r, float stroke, Color c)
+{
+
+	for (int i = x - int(r); i <= x + int(r); i++) {
+		for (int j = y - int(r); j <= y + int(r); j++) {
+			if (insideScreen(i, j)) {
+				const float dist = seglen(i, j, x, y);
+				if (dist <= r && dist >= r-stroke ) {
+					PutPixel(i, j, c);
+				}
+			}
+		}
+	}
+}
+
 
 
 
