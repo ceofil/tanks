@@ -268,15 +268,14 @@ void Game::DrawScore()
 	const int hSpacing = 10;
 	const int wSpacing = 50;
 	const int height = 20;
-	
 	//p1 HP 
-	const int width2 = p1.GetHP() * 285 / 10;
+	const int width2 = p1.GetHP() * 285 / p2.GetMaxHP();
 	gfx.DrawRectPoints(sw - wSpacing - width2, sh - hSpacing - height, sw - wSpacing, sh - hSpacing, p1.GetColor());
 	gfx.DrawRectStrokeOnly(sw - wSpacing - 285, sh - hSpacing - height, sw - wSpacing, sh - hSpacing, p1.GetColor());
 	txt.drawint(p1.GetHP(), (sw - wSpacing)/4 + 3, (sh - hSpacing) / 4 - 6, Colors::White);
 
 	//p2 HP
-	const int width1 = p2.GetHP() * 285 / 10;
+	const int width1 = p2.GetHP() * 285 / p1.GetMaxHP();
 	gfx.DrawRectPoints(wSpacing, sh - hSpacing - height, wSpacing + width1, sh - hSpacing, p2.GetColor());
 	gfx.DrawRectStrokeOnly(wSpacing, sh - hSpacing - height, wSpacing + 285, sh - hSpacing, p2.GetColor());
 	txt.drawintRight(p2.GetHP(), wSpacing / 4 - 1, (sh - hSpacing) / 4 - 6, Colors::White);

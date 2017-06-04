@@ -38,7 +38,9 @@ public:
 	Vec2 GetSpawnPoint() const;
 	int GetScore() const;
 	int GetHP() const;
+	int GetMaxHP() const;
 	Color GetColor() const;
+
 private:
 	static constexpr float speed = 200.0f;
 	static constexpr float rotationSpeed = 100.0f;

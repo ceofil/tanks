@@ -156,6 +156,11 @@ int Player::GetHP() const
 	return HP;
 }
 
+int Player::GetMaxHP() const
+{
+	return maxHP;
+}
+
 void Player::AddToScore()
 {
 	score++;
