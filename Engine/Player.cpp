@@ -23,6 +23,7 @@ void Player::Update(Keyboard& kbd, const float dt,
 					RectF walls[], int indexWalls, 
 					Player& other, 
 					Ball balls[], int nBalls,
+					ElectricField& field,
 					const int up, const int down, const int left, const int right)
 {
 	
@@ -64,12 +65,13 @@ void Player::Update(Keyboard& kbd, const float dt,
 			{
 				hit.Play(1.0f, 0.2f);
 				balls[i].Destroy();
-				if (HP > 1)
+				if (HP - 2.0f> 0.0f)
 				{
-					LowerHP(1);
+					LowerHP(2.0f);
 				}
 				else
 				{
+					field.Reset();
 					NewRound();
 					other.NewRound();
 					other.AddToScore();
@@ -79,12 +81,36 @@ void Player::Update(Keyboard& kbd, const float dt,
 						{
 							balls[j].Destroy();
 						}
+						balls[j].LowerLifeTime(balls[j].GetLifeTime());
 					}
 				}
 			}
 		}
 	}
 
+	if (IsContainedBy(field.GetPos(), field.GetRadius()) == false)
+	{
+		if(HP-dt > 0.0f)
+		{
+			LowerHP(dt);
+		}
+		else
+		{
+			field.Reset();
+			NewRound();
+			other.NewRound();
+			other.AddToScore();
+			for (int j = 0; j <= nBalls; j++)
+			{
+				if (balls[j].IsSpawned())
+				{
+					balls[j].Destroy();
+				}
+				balls[j].LowerLifeTime(balls[j].GetLifeTime());
+			}
+		}
+		
+	}
 	KeepInsideScreen(RectF(Vec2(0.0f, 0.0f), Vec2(float(Graphics::ScreenWidth), float(Graphics::ScreenHeight - 35))));
 }
 
@@ -151,12 +177,12 @@ int Player::GetScore() const
 	return score;
 }
 
-int Player::GetHP() const
+float Player::GetHP() const
 {
 	return HP;
 }
 
-int Player::GetMaxHP() const
+float Player::GetMaxHP() const
 {
 	return maxHP;
 }
@@ -166,7 +192,7 @@ void Player::AddToScore()
 	score++;
 }
 
-void Player::LowerHP(int dmg)
+void Player::LowerHP(float dmg)
 {
 	HP -= dmg;
 }
@@ -184,6 +210,11 @@ bool Player::IsOverLappingWith(const Vec2 other, float r)
 	return (GetPos() - other).GetLength() <= radius + r;
 }
 
+bool Player::IsContainedBy(const Vec2 center, float r)
+{
+	return (center-pos).GetLength()+radius < r;
+}
+
 void Player::DoPlayerCollision(Player & other, float dt)
 {
 	Vec2 otherPos = other.pos;
@@ -191,6 +222,11 @@ void Player::DoPlayerCollision(Player & other, float dt)
 	{
 		Move(  dir * -1.0f , dt);
 	}
+}
+
+void Player::DoFieldInteraction(ElectricField & field)
+{
+	
 }
 
 void Player::KeepInsideScreen(const RectF & walls)

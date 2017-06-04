@@ -5,6 +5,7 @@
 #include "RectF.h"
 #include "Ball.h"
 #include "Sound.h"
+#include "ElectricField.h"
 class Player
 {
 public:
@@ -14,6 +15,7 @@ public:
 				RectF walls[], int indexWalls, 
 				Player& other, 
 				Ball balls[], int nBalls,
+				ElectricField& field,
 				const int up, const int down, const int left, const int right);
 public:
 	void DoWallCollision(const RectF& wall, const Vec2 dir, const float dt);
@@ -21,35 +23,38 @@ public:
 
 	//checks to see if the circle of the player is overlapping with another circle
 	bool IsOverLappingWith(const Vec2 other, float r); 
+	
+	bool IsContainedBy(const Vec2 center, float r);
 
 	//this undoes the movement that caused the players to overlap
 	void DoPlayerCollision(Player& other, float dt);
+	void DoFieldInteraction(ElectricField& field);
 	
 	//when one player drops below 1 HP the other player gains a point and everything gets reset
 	void NewRound();
 
 	void Move(Vec2 dir_in, float dt);
 	void AddToScore();
-	void LowerHP(int dmg);
+	void LowerHP(float dmg);
 public:
 	RectF GetRect() const;
 	Vec2 GetPos() const;
 	Vec2 GetDir() const;
 	Vec2 GetSpawnPoint() const;
 	int GetScore() const;
-	int GetHP() const;
-	int GetMaxHP() const;
+	float GetHP() const;
+	float GetMaxHP() const;
 	Color GetColor() const;
 
 private:
 	static constexpr float speed = 200.0f;
 	static constexpr float rotationSpeed = 100.0f;
-	static constexpr float radius = 20.0f;
+	static constexpr float radius = 15.0f;
 	static constexpr float scopeRadius = 0.2f; //ratio
 	static constexpr float pi = 3.14159265f;
 	Vec2 AngleToVec2(const float& angle);
-	static constexpr int maxHP = 10;
-	int HP;
+	static constexpr float maxHP = 99;
+	float HP;
 	int score = 0;
 	Color c;
 private:

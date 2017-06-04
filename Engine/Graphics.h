@@ -65,6 +65,7 @@ public:
 	void DrawCircle(int x, int y, float r, Color c);
 	void DrawCircle(const Vec2& pos, float r, Color c);
 	void DrawCircleStrokeOnly(int x, int y, float r, float stroke, Color c);
+	void DrawCircleStrokeOnly(Vec2 pos, float r, float stroke, Color c);
 	bool insideScreen(int x, int y);
 	float seglen(int x1, int y1, int x2, int y2);
 	void FillScreenWith(Color c);

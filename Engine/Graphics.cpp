@@ -420,6 +420,11 @@ void Graphics::DrawCircleStrokeOnly(int x, int y, float r, float stroke, Color c
 	}
 }
 
+void Graphics::DrawCircleStrokeOnly(Vec2 pos, float r, float stroke, Color c)
+{
+	DrawCircleStrokeOnly(int(pos.x), int(pos.y), r, stroke, c);
+}
+
 
 
 

@@ -32,7 +32,7 @@ public:
 private:
 	bool spawned = false;
 	float lifeTime = 0.0f;
-	float speed = 300.0f;
+	float speed = 400.0f;
 	Vec2 pos;
 	Vec2 vel;
 };

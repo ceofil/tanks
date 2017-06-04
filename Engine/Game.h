@@ -33,6 +33,7 @@
 #include "RectF.h"
 #include "SpriteCodex.h"
 #include "Sound.h"
+#include "ElectricField.h"
 
 
 class Game
@@ -71,6 +72,7 @@ private:
 	Text txt;
 	Player p1;
 	Player p2;
+	ElectricField field;
 	Sound wallBounceSound;
 	Sound popSound;
 
@@ -89,5 +91,3 @@ private:
 	static constexpr int sh = Graphics::ScreenHeight;
 	/********************************/
 };
-
-

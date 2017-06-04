@@ -31,6 +31,7 @@ Game::Game(MainWindow& wnd)
 	txt(gfx,0,0,4,4,800,600),
 	p1(Vec2(450.0f, 300.0f), 0.0f, Color(255, 80, 80)),
 	p2(Vec2(350.0f, 300.0f), 180.0f, Color(51, 204, 51)),
+	field(Vec2(400.0f,300.0f),1000.0f),
 	wallBounceSound(L"ballBounce.wav"),
 	popSound(L"pop.wav")
 {
@@ -68,8 +69,8 @@ void Game::UpdateModel(float dt)
 		{
 			gameIsStarted = false;
 		}
-		p1.Update(wnd.kbd, dt, walls, indexWalls, p2, balls, nBalls, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT);
-		p2.Update(wnd.kbd, dt, walls, indexWalls, p1, balls, nBalls, 0x57, 0x53, 0x41, 0x44);  //w,a,s,d
+		p1.Update(wnd.kbd, dt, walls, indexWalls, p2, balls, nBalls, field, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT);
+		p2.Update(wnd.kbd, dt, walls, indexWalls, p1, balls, nBalls, field, 0x57, 0x53, 0x41, 0x44);  //w,a,s,d
 
 		if (!wnd.kbd.KeyIsEmpty())
 		{
@@ -87,6 +88,7 @@ void Game::UpdateModel(float dt)
 			}
 		}
 		UpdateBalls(dt);
+		field.Update(dt);
 	}
 }
 
@@ -98,6 +100,7 @@ void Game::ComposeFrame()
 	DrawWalls();
 	p1.Draw(gfx);
 	p2.Draw(gfx);
+	field.Draw(gfx);
 	if (gameIsStarted)
 	{
 		DrawScore();
@@ -108,7 +111,7 @@ void Game::ComposeFrame()
 	{
 		txt.drawstringCenter("pause", 400/4, 70/4, Color(200,200,200));
 	}
-	gfx.DrawCircleStrokeOnly(400, 300, 100.0f, 5.0f, Color(0,100,255));
+	
 }
 
 
@@ -277,16 +280,16 @@ void Game::DrawScore()
 	txt.drawintRight(p1.GetScore(), (sw - (wSpacing + hpBarWidth + 10)) / 4, (sh - hSpacing) / 4 - 6, Colors::White);
 
 	//p1 HP 
-	const int width1 = p1.GetHP() * hpBarWidth / p2.GetMaxHP();
+	const int width1 = int(p1.GetHP()) * hpBarWidth / int(p1.GetMaxHP());
 	gfx.DrawRectPoints(sw - wSpacing - width1, sh - hSpacing - height, sw - wSpacing, sh - hSpacing, p1.GetColor());
 	gfx.DrawRectStrokeOnly(sw - wSpacing - hpBarWidth, sh - hSpacing - height, sw - wSpacing, sh - hSpacing, p1.GetColor());
-	txt.drawint(p1.GetHP(), (sw - wSpacing)/4 + 3, (sh - hSpacing) / 4 - 6, Colors::White);
+	txt.drawint(int(p1.GetHP()), (sw - wSpacing)/4 + 3, (sh - hSpacing) / 4 - 6, Colors::White);
 
 	//p2 HP
-	const int width2 = p2.GetHP() * hpBarWidth / p1.GetMaxHP();
+	const int width2 = int(p2.GetHP()) * hpBarWidth / int(p1.GetMaxHP());
 	gfx.DrawRectPoints(wSpacing, sh - hSpacing - height, wSpacing + width2, sh - hSpacing, p2.GetColor());
 	gfx.DrawRectStrokeOnly(wSpacing, sh - hSpacing - height, wSpacing + hpBarWidth, sh - hSpacing, p2.GetColor());
-	txt.drawintRight(p2.GetHP(), wSpacing / 4 - 1, (sh - hSpacing) / 4 - 6, Colors::White);
+	txt.drawintRight(int(p2.GetHP()), wSpacing / 4 - 1, (sh - hSpacing) / 4 - 6, Colors::White);
 
 	gfx.DrawRectPoints(0, sh - 41, sw - 1, sh - 40, Color(70, 70, 70));
 }
