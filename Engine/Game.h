@@ -74,7 +74,7 @@ private:
 	Sound wallBounceSound;
 	Sound popSound;
 
-	static constexpr int nBalls = 10;
+	static constexpr int nBalls = 50;
 	Ball balls[nBalls];
 
 	static constexpr int nWalls = 10;
@@ -84,6 +84,9 @@ private:
 	int indexWalls = -1;
 	bool RectStarted = false;
 	int x1, x2, y1, y2;
+
+	static constexpr int sw = Graphics::ScreenWidth;
+	static constexpr int sh = Graphics::ScreenHeight;
 	/********************************/
 };
 

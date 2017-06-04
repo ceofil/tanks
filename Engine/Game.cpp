@@ -269,22 +269,26 @@ void Game::DrawScore()
 	const int hSpacing = 10;
 	const int wSpacing = 50;
 	const int height = 20;
+	const int hpBarWidth = 400;
+
+	//p1 and p2 scores
+	gfx.DrawRectPoints(wSpacing + hpBarWidth + 10, sh - hSpacing - height - 11, sw - (wSpacing + hpBarWidth + 10), sh - 3, Color(80, 80, 80));
+	txt.drawint(p2.GetScore(), (wSpacing + hpBarWidth + 10) / 4 + 1, (sh - hSpacing) / 4 - 6, Colors::White);
+	txt.drawintRight(p1.GetScore(), (sw - (wSpacing + hpBarWidth + 10)) / 4, (sh - hSpacing) / 4 - 6, Colors::White);
+
 	//p1 HP 
-	const int width2 = p1.GetHP() * 285 / p2.GetMaxHP();
-	gfx.DrawRectPoints(sw - wSpacing - width2, sh - hSpacing - height, sw - wSpacing, sh - hSpacing, p1.GetColor());
-	gfx.DrawRectStrokeOnly(sw - wSpacing - 285, sh - hSpacing - height, sw - wSpacing, sh - hSpacing, p1.GetColor());
+	const int width1 = p1.GetHP() * hpBarWidth / p2.GetMaxHP();
+	gfx.DrawRectPoints(sw - wSpacing - width1, sh - hSpacing - height, sw - wSpacing, sh - hSpacing, p1.GetColor());
+	gfx.DrawRectStrokeOnly(sw - wSpacing - hpBarWidth, sh - hSpacing - height, sw - wSpacing, sh - hSpacing, p1.GetColor());
 	txt.drawint(p1.GetHP(), (sw - wSpacing)/4 + 3, (sh - hSpacing) / 4 - 6, Colors::White);
 
 	//p2 HP
-	const int width1 = p2.GetHP() * 285 / p1.GetMaxHP();
-	gfx.DrawRectPoints(wSpacing, sh - hSpacing - height, wSpacing + width1, sh - hSpacing, p2.GetColor());
-	gfx.DrawRectStrokeOnly(wSpacing, sh - hSpacing - height, wSpacing + 285, sh - hSpacing, p2.GetColor());
+	const int width2 = p2.GetHP() * hpBarWidth / p1.GetMaxHP();
+	gfx.DrawRectPoints(wSpacing, sh - hSpacing - height, wSpacing + width2, sh - hSpacing, p2.GetColor());
+	gfx.DrawRectStrokeOnly(wSpacing, sh - hSpacing - height, wSpacing + hpBarWidth, sh - hSpacing, p2.GetColor());
 	txt.drawintRight(p2.GetHP(), wSpacing / 4 - 1, (sh - hSpacing) / 4 - 6, Colors::White);
 
-	//p1 and p2 scores
-	gfx.DrawRectPoints(345, sh - hSpacing - height - 11, sw - 345, sh - 3, Color(80, 80, 80));
-	txt.drawint(p2.GetScore(), (wSpacing + 300) / 4 + 1, (sh - hSpacing) / 4 - 6, Colors::White);
-	txt.drawintRight(p1.GetScore(), (sw - wSpacing - 300) / 4 + 1, (sh - hSpacing) / 4 - 6, Colors::White);
+	gfx.DrawRectPoints(0, sh - 41, sw - 1, sh - 40, Color(70, 70, 70));
 }
 
 int Game::CountBallsLeft(int player)
