@@ -7,11 +7,11 @@
 #include <chrono>
 #include "Sound.h"
 
-class Ball
+class Bullet
 {
 public:
-	Ball() = default;
-	Ball( const Vec2& pos_in,const Vec2& dir_in );
+	Bullet() = default;
+	Bullet( const Vec2& pos_in,const Vec2& dir_in );
 	void Draw( Graphics& gfx ) const;
 	void Update(float dt, RectF walls[], int indexWalls, Sound& wallBounceSound);
 	void DoWallCollision( const RectF& walls, Sound& wallBounceSound);

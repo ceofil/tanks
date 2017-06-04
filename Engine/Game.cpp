@@ -69,8 +69,8 @@ void Game::UpdateModel(float dt)
 		{
 			gameIsStarted = false;
 		}
-		p1.Update(wnd.kbd, dt, walls, indexWalls, p2, balls, nBalls, field, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT);
-		p2.Update(wnd.kbd, dt, walls, indexWalls, p1, balls, nBalls, field, 0x57, 0x53, 0x41, 0x44);  //w,a,s,d
+		p1.Update(wnd.kbd, dt, walls, indexWalls, p2, bullets, nBullets, field, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT);
+		p2.Update(wnd.kbd, dt, walls, indexWalls, p1, bullets, nBullets, field, 0x57, 0x53, 0x41, 0x44);  //w,a,s,d
 
 		if (!wnd.kbd.KeyIsEmpty())
 		{
@@ -87,7 +87,7 @@ void Game::UpdateModel(float dt)
 				}
 			}
 		}
-		UpdateBalls(dt);
+		UpdateBullets(dt);
 		field.Update(dt);
 	}
 }
@@ -104,8 +104,8 @@ void Game::ComposeFrame()
 	if (gameIsStarted)
 	{
 		DrawScore();
-		DrawBalls();
-		DrawBallsLeft();
+		DrawBullets();
+		DrawBulletsLeft();
 	}
 	else
 	{
@@ -156,7 +156,7 @@ void Game::CreateWalls()
 
 void Game::Player1_Shoot()
 {
-	//so balls don't spawn inside walls
+	//so Bullets don't spawn inside walls
 	bool test = true;
 	Vec2 spawnPoint = p1.GetSpawnPoint();
 	for (int i = 0; i < indexWalls; i++)
@@ -170,11 +170,11 @@ void Game::Player1_Shoot()
 	//spawns a ball at the aim point of the player with the direction of the player 
 	if (test)
 	{
-		for (int i = 0; i < nBalls / 2; i++)
+		for (int i = 0; i < nBullets / 2; i++)
 		{
-			if (balls[i].IsSpawned() == false && balls[i].GetLifeTime() <= 0.0f)
+			if (bullets[i].IsSpawned() == false && bullets[i].GetLifeTime() <= 0.0f)
 			{
-				balls[i].Spawn(p1.GetSpawnPoint(), p1.GetDir(), 5.0f);
+				bullets[i].Spawn(p1.GetSpawnPoint(), p1.GetDir(), 5.0f);
 				popSound.Play(1.0f, 0.3f);
 				break;
 			}
@@ -196,11 +196,11 @@ void Game::Player2_Shoot()
 	}
 	if (test)
 	{
-		for (int i = nBalls / 2; i < nBalls; i++)
+		for (int i = nBullets / 2; i < nBullets; i++)
 		{
-			if (balls[i].IsSpawned() == false && balls[i].GetLifeTime() <= 0.0f)
+			if (bullets[i].IsSpawned() == false && bullets[i].GetLifeTime() <= 0.0f)
 			{
-				balls[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 5.0f);
+				bullets[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 5.0f);
 				popSound.Play(1.0f, 0.3f);
 				break;
 			}
@@ -208,31 +208,31 @@ void Game::Player2_Shoot()
 	}
 }
 
-void Game::UpdateBalls(float dt)
+void Game::UpdateBullets(float dt)
 {
-	for (int i = 0; i < nBalls; i++)
+	for (int i = 0; i < nBullets; i++)
 	{
-		if (balls[i].IsSpawned() == true)
+		if (bullets[i].IsSpawned() == true)
 		{
-			balls[i].Update(dt, walls, indexWalls, wallBounceSound);
+			bullets[i].Update(dt, walls, indexWalls, wallBounceSound);
 		}
 		else 
 		{
-			if (balls[i].GetLifeTime() > 0.0f)
+			if (bullets[i].GetLifeTime() > 0.0f)
 			{
-				balls[i].LowerLifeTime(dt);
+				bullets[i].LowerLifeTime(dt);
 			}
 		}
 	}
 }
 
-void Game::DrawBalls()
+void Game::DrawBullets()
 {
-	for (int i = 0; i < nBalls; i++)
+	for (int i = 0; i < nBullets; i++)
 	{
-		if (balls[i].IsSpawned())
+		if (bullets[i].IsSpawned())
 		{
-			balls[i].Draw(gfx);
+			bullets[i].Draw(gfx);
 		}
 	}
 }
@@ -294,12 +294,12 @@ void Game::DrawScore()
 	gfx.DrawRectPoints(0, sh - 41, sw - 1, sh - 40, Color(70, 70, 70));
 }
 
-int Game::CountBallsLeft(int player)
+int Game::CountBulletsLeft(int player)
 {
 	int counter = 0;
-	for (int i = (player - 1) * nBalls / 2; i < player * nBalls / 2; i++)
+	for (int i = (player - 1) * nBullets / 2; i < player * nBullets / 2; i++)
 	{
-		if (balls[i].GetLifeTime()<=0.0f)
+		if (bullets[i].GetLifeTime()<=0.0f)
 		{
 			counter++;
 		}
@@ -307,18 +307,18 @@ int Game::CountBallsLeft(int player)
 	return counter;
 }
 
-void Game::DrawBallsLeft()
+void Game::DrawBulletsLeft()
 {
 	const int spacing = 8;
 
-	int ballsLeft = CountBallsLeft(1);
-	for (int i = 0; i < ballsLeft; i++)
+	int BulletsLeft = CountBulletsLeft(1);
+	for (int i = 0; i < BulletsLeft; i++)
 	{
 		gfx.DrawCircle(450 - i * spacing, Graphics::ScreenHeight - 50, 3, p1.GetColor());
 	}
 
-	ballsLeft = CountBallsLeft(2);
-	for (int i = 0; i < ballsLeft; i++)
+	BulletsLeft = CountBulletsLeft(2);
+	for (int i = 0; i < BulletsLeft; i++)
 	{
 		gfx.DrawCircle(350 + i * spacing, Graphics::ScreenHeight - 50, 3, p2.GetColor());
 	}

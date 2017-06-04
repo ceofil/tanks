@@ -3,7 +3,7 @@
 #include "Vec2.h"
 #include "Keyboard.h"
 #include "RectF.h"
-#include "Ball.h"
+#include "Bullet.h"
 #include "Sound.h"
 #include "ElectricField.h"
 class Player
@@ -14,7 +14,7 @@ public:
 	void Update(Keyboard& kbd, const float dt, 
 				RectF walls[], int indexWalls, 
 				Player& other, 
-				Ball balls[], int nBalls,
+				Bullet bullets[], int nBullets,
 				ElectricField& field,
 				const int up, const int down, const int left, const int right);
 public:

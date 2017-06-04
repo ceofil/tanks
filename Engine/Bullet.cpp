@@ -1,18 +1,18 @@
-#include "Ball.h"
+#include "Bullet.h"
 
-Ball::Ball( const Vec2 & pos_in,const Vec2 & dir_in )
+Bullet::Bullet( const Vec2 & pos_in,const Vec2 & dir_in )
 	:
 	pos( pos_in )
 {
 	SetDirection( dir_in );
 }
 
-void Ball::Draw( Graphics & gfx ) const
+void Bullet::Draw( Graphics & gfx ) const
 {
-	SpriteCodex::DrawBall( pos,gfx );
+	gfx.DrawCircle(pos, 3.0f, Colors::White);
 }
 
-void Ball::Update( float dt, RectF walls[], int indexWalls, Sound& wallBounceSound)
+void Bullet::Update( float dt, RectF walls[], int indexWalls, Sound& wallBounceSound)
 {
 	pos += vel * dt;
 	lifeTime -= dt;
@@ -28,7 +28,7 @@ void Ball::Update( float dt, RectF walls[], int indexWalls, Sound& wallBounceSou
 	}
 }
 
-void  Ball::DoWallCollision( const RectF & walls, Sound& wallBounceSound)
+void  Bullet::DoWallCollision( const RectF & walls, Sound& wallBounceSound)
 {
 	const RectF rect = GetRect();
 	if( rect.left < walls.left ) 
@@ -57,7 +57,7 @@ void  Ball::DoWallCollision( const RectF & walls, Sound& wallBounceSound)
 	}
 }
 
-void Ball::DoOutsideWallCollision(const RectF & wall, Sound& wallBounceSound)
+void Bullet::DoOutsideWallCollision(const RectF & wall, Sound& wallBounceSound)
 {
 	const RectF rect = GetRect();
 	if (rect.IsContainedBy(wall))
@@ -86,47 +86,47 @@ void Ball::DoOutsideWallCollision(const RectF & wall, Sound& wallBounceSound)
 	}
 }
 
-void Ball::ReboundX()
+void Bullet::ReboundX()
 {
 	vel.x = -vel.x;
 }
 
-void Ball::ReboundY()
+void Bullet::ReboundY()
 {
 	vel.y = -vel.y;
 }
 
-RectF Ball::GetRect() const
+RectF Bullet::GetRect() const
 {
 	return RectF::FromCenter( pos,radius,radius );
 }
 
-Vec2 Ball::GetVelocity() const
+Vec2 Bullet::GetVelocity() const
 {
 	return vel;
 }
 
-Vec2 Ball::GetPosition() const
+Vec2 Bullet::GetPosition() const
 {
 	return pos;
 }
 
-void Ball::SetDirection( const Vec2 & dir )
+void Bullet::SetDirection( const Vec2 & dir )
 {
 	vel = dir.GetNormalized() * speed;
 }
 
-bool Ball::IsSpawned()
+bool Bullet::IsSpawned()
 {
 	return spawned;
 }
 
-float Ball::GetLifeTime()
+float Bullet::GetLifeTime()
 {
 	return lifeTime;
 }
 
-void Ball::Spawn(const Vec2 & pos_in, const Vec2 & dir_in, float lifetime_in)
+void Bullet::Spawn(const Vec2 & pos_in, const Vec2 & dir_in, float lifetime_in)
 {
 	spawned = true;
 	pos = pos_in;
@@ -134,12 +134,12 @@ void Ball::Spawn(const Vec2 & pos_in, const Vec2 & dir_in, float lifetime_in)
 	lifeTime = lifetime_in;
 }
 
-void Ball::Destroy()
+void Bullet::Destroy()
 {
 	spawned = false;
 }
 
-void Ball::LowerLifeTime(float dt)
+void Bullet::LowerLifeTime(float dt)
 {
 	lifeTime -= dt;
 }

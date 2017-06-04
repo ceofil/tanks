@@ -21,8 +21,8 @@ void Player::Draw(Graphics & gfx) const
 
 void Player::Update(Keyboard& kbd, const float dt, 
 					RectF walls[], int indexWalls, 
-					Player& other, 
-					Ball balls[], int nBalls,
+					Player& other,
+					Bullet bullets[], int nBullets,
 					ElectricField& field,
 					const int up, const int down, const int left, const int right)
 {
@@ -57,14 +57,14 @@ void Player::Update(Keyboard& kbd, const float dt,
 			DoWallCollision(walls[i], dir*(-1.0f), dt);
 		}
 	}
-	for (int i = 0; i <= nBalls; i++)
+	for (int i = 0; i <= nBullets; i++)
 	{
-		if (balls[i].IsSpawned())
+		if (bullets[i].IsSpawned())
 		{
-			if (IsOverLappingWith(balls[i].GetPosition(), Ball::radius))
+			if (IsOverLappingWith(bullets[i].GetPosition(), Bullet::radius))
 			{
 				hit.Play(1.0f, 0.2f);
-				balls[i].Destroy();
+				bullets[i].Destroy();
 				if (HP - 2.0f> 0.0f)
 				{
 					LowerHP(2.0f);
@@ -75,13 +75,13 @@ void Player::Update(Keyboard& kbd, const float dt,
 					NewRound();
 					other.NewRound();
 					other.AddToScore();
-					for (int j = 0; j <= nBalls; j++)
+					for (int j = 0; j <= nBullets; j++)
 					{
-						if (balls[j].IsSpawned())
+						if (bullets[j].IsSpawned())
 						{
-							balls[j].Destroy();
+							bullets[j].Destroy();
 						}
-						balls[j].LowerLifeTime(balls[j].GetLifeTime());
+						bullets[j].LowerLifeTime(bullets[j].GetLifeTime());
 					}
 				}
 			}
@@ -100,13 +100,13 @@ void Player::Update(Keyboard& kbd, const float dt,
 			NewRound();
 			other.NewRound();
 			other.AddToScore();
-			for (int j = 0; j <= nBalls; j++)
+			for (int j = 0; j <= nBullets; j++)
 			{
-				if (balls[j].IsSpawned())
+				if (bullets[j].IsSpawned())
 				{
-					balls[j].Destroy();
+					bullets[j].Destroy();
 				}
-				balls[j].LowerLifeTime(balls[j].GetLifeTime());
+				bullets[j].LowerLifeTime(bullets[j].GetLifeTime());
 			}
 		}
 		
@@ -164,7 +164,7 @@ Vec2 Player::GetDir() const
 
 Vec2 Player::GetSpawnPoint() const
 {
-	return pos + dir * (radius+Ball::radius);
+	return pos + dir * (radius+Bullet::radius);
 }
 
 Color Player::GetColor() const

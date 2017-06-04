@@ -28,7 +28,7 @@
 #include "Text.h"
 #include <chrono>
 #include "FrameTimer.h"
-#include "Ball.h"
+#include "Bullet.h"
 #include "Player.h"
 #include "RectF.h"
 #include "SpriteCodex.h"
@@ -53,14 +53,14 @@ private:
 	void CreateWalls();
 	void Player1_Shoot();
 	void Player2_Shoot();
-	void UpdateBalls(float dt);
-	void DrawBalls();
+	void UpdateBullets(float dt);
+	void DrawBullets();
 	void DrawWalls();
 	void UndoWall();
 	void DrawScore();
 
-	int CountBallsLeft(int player);
-	void DrawBallsLeft();
+	int CountBulletsLeft(int player);
+	void DrawBulletsLeft();
 	/********************************/
 private:
 	MainWindow& wnd;
@@ -76,8 +76,8 @@ private:
 	Sound wallBounceSound;
 	Sound popSound;
 
-	static constexpr int nBalls = 50;
-	Ball balls[nBalls];
+	static constexpr int nBullets = 50;
+	Bullet bullets[nBullets];
 
 	static constexpr int nWalls = 10;
 	RectF walls[nWalls];
