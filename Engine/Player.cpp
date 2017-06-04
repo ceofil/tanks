@@ -6,7 +6,8 @@ Player::Player(const Vec2 in_pos, const float in_angle, Color c)
 	startPos(in_pos),
 	startAngle(in_angle),
 	c(c),
-	hit(L"punch.wav")
+	hit({ L"hit1.wav",L"hit2.wav" })
+	//,electricSound({ L"electric0", L"electric1", L"electric2" })
 {
 	NewRound();
 }
@@ -63,7 +64,7 @@ void Player::Update(Keyboard& kbd, const float dt,
 		{
 			if (IsOverLappingWith(bullets[i].GetPosition(), Bullet::radius))
 			{
-				hit.Play(1.0f, 0.2f);
+				hit.Play(rng);
 				bullets[i].Destroy();
 				if (HP - 2.0f> 0.0f)
 				{

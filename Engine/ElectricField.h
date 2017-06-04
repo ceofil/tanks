@@ -1,6 +1,6 @@
 #pragma once
 #include "Vec2.h"
-#include "Graphics.h"
+#include "Sound.h"
 
 class ElectricField
 {
@@ -13,7 +13,8 @@ public:
 	Vec2 GetPos()const;
 	float GetRadius()const;
 private:
-	float startRadius;
 	Vec2 pos;
+	float startRadius;
 	float radius;
+public:
 };

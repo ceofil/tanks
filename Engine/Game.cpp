@@ -33,7 +33,8 @@ Game::Game(MainWindow& wnd)
 	p2(Vec2(350.0f, 300.0f), 180.0f, Color(51, 204, 51)),
 	field(Vec2(400.0f,300.0f),1000.0f),
 	wallBounceSound(L"ballBounce.wav"),
-	popSound(L"bulletShot.wav")
+	bulletShot(L"bulletShot.wav"),
+	rng(rd())
 {
 }
 
@@ -174,7 +175,7 @@ void Game::Player1_Shoot()
 			if (bullets[i].IsSpawned() == false && bullets[i].GetLifeTime() <= 0.0f)
 			{
 				bullets[i].Spawn(p1.GetSpawnPoint(), p1.GetDir(), 1.0f);
-				popSound.Play(1.0f, 0.3f);
+				bulletShot.Play(1.0f, 0.3f);
 				break;
 			}
 		}
@@ -200,7 +201,7 @@ void Game::Player2_Shoot()
 			if (bullets[i].IsSpawned() == false && bullets[i].GetLifeTime() <= 0.0f)
 			{
 				bullets[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 1.0f);
-				popSound.Play(1.0f, 0.3f);
+				bulletShot.Play();
 				break;
 			}
 		}

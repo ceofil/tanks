@@ -33,6 +33,7 @@
 #include "RectF.h"
 #include "SpriteCodex.h"
 #include "Sound.h"
+#include "SoundEffect.h"
 #include "ElectricField.h"
 
 
@@ -74,7 +75,7 @@ private:
 	Player p2;
 	ElectricField field;
 	Sound wallBounceSound;
-	Sound popSound;
+	Sound bulletShot;
 
 	static constexpr int nBullets = 50;
 	Bullet bullets[nBullets];
@@ -89,5 +90,8 @@ private:
 
 	static constexpr int sw = Graphics::ScreenWidth;
 	static constexpr int sh = Graphics::ScreenHeight;
+
+	std::random_device rd;
+	std::mt19937 rng;
 	/********************************/
 };

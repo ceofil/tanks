@@ -5,7 +5,9 @@
 #include "RectF.h"
 #include "Bullet.h"
 #include "Sound.h"
+#include "SoundEffect.h"
 #include "ElectricField.h"
+#include <random>
 class Player
 {
 public:
@@ -65,5 +67,9 @@ private:
 	//so I have what to set it to in NewRound();
 	Vec2 startPos; 
 	float startAngle;
-	Sound hit;
+	SoundEffect hit;
+	//SoundEffect electricSound;
+
+	std::random_device rd;
+	std::mt19937 rng;
 };
