@@ -33,7 +33,7 @@ Game::Game(MainWindow& wnd)
 	p2(Vec2(350.0f, 300.0f), 180.0f, Color(51, 204, 51)),
 	field(Vec2(400.0f,300.0f),1000.0f),
 	wallBounceSound(L"ballBounce.wav"),
-	popSound(L"pop.wav")
+	popSound(L"bulletShot.wav")
 {
 }
 
