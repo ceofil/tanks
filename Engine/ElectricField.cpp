@@ -13,8 +13,6 @@ ElectricField::ElectricField(Vec2 in_pos, float in_radius)
 {
 	Reset();
 	intPos = Vei2(int(pos.x), int(pos.y));
-	
-	
 }
 
 void ElectricField::Draw(Graphics & gfx)
@@ -49,8 +47,8 @@ void ElectricField::Reset()
 	radius = startRadius;
 	for (int i = 0; i < numberOfElectricThings; i++)
 	{
-		things[i] = Vei2(binary(rng)*(Graphics::ScreenWidth - 1), binary(rng)*(Graphics::ScreenHeight - 1));
-		//things[i] = Vei2( xRange(rng), yRange(rng)  );
+		//things[i] = Vei2(binary(rng)*(Graphics::ScreenWidth - 1), binary(rng)*(Graphics::ScreenHeight - 1));
+		things[i] = Vei2( xRange(rng), yRange(rng)  );
 	}
 }
 
