@@ -29,8 +29,8 @@ Game::Game(MainWindow& wnd)
 	wnd(wnd),
 	gfx(wnd),
 	txt(gfx,0,0,4,4,800,600),
-	p1(Vec2(450.0f, 300.0f), 0.0f, Color(255, 80, 80)),
-	p2(Vec2(350.0f, 300.0f), 180.0f, Color(51, 204, 51)),
+	p1(Vec2(float(Graphics::ScreenWidth / 2)+50.0f, float(Graphics::ScreenHeight / 2)), 0.0f, Color(255, 80, 80)),
+	p2(Vec2(float(Graphics::ScreenWidth / 2)-50.0f, float(Graphics::ScreenHeight / 2)), 180.0f, Color(51, 204, 51)),
 	field(Vec2(400.0f,300.0f),1000.0f),
 	wallBounceSound(L"ballBounce.wav"),
 	bulletShot(L"bulletShot.wav"),
@@ -98,10 +98,14 @@ void Game::UpdateModel(float dt)
 void Game::ComposeFrame()
 {
 	gfx.FillScreenWith(Color(50, 50, 50));
+
+	if(gameIsStarted)
+		field.Draw(gfx);
+
 	DrawWalls();
+	field.DrawCircle(gfx);
 	p1.Draw(gfx);
 	p2.Draw(gfx);
-	field.Draw(gfx);
 	if (gameIsStarted)
 	{
 		DrawScore();
@@ -110,7 +114,7 @@ void Game::ComposeFrame()
 	}
 	else
 	{
-		txt.drawstringCenter("pause", 400/4, 70/4, Color(200,200,200));
+		txt.drawstringCenter("pause", Graphics::ScreenWidth/2/4, Graphics::ScreenHeight/6/4, Color(200,200,200));
 	}
 }
 
