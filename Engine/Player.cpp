@@ -46,7 +46,7 @@ void Player::Update(Keyboard& kbd, const float dt,
 	{
 		pos += dir * speed * dt;
 		DoPlayerCollision(other, dt);
-		for (int i = 0; i <= indexWalls; i++)
+		for (int i = 1; i <= indexWalls; i++)
 		{
 			DoWallCollision(walls[i], dir, dt);
 		}
@@ -55,7 +55,7 @@ void Player::Update(Keyboard& kbd, const float dt,
 	{
 		pos -= dir * speed * dt;
 		DoPlayerCollision(other, dt);
-		for (int i = 0; i <= indexWalls; i++)
+		for (int i = 1; i <= indexWalls; i++)
 		{
 			DoWallCollision(walls[i], dir*(-1.0f), dt);
 		}

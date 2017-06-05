@@ -17,7 +17,7 @@ void ElectricField::Update(float dt)
 {
 	if (radius > 100.0f)
 	{
-		const float contractionSpeed = sqrt(radius) * 0.12f;
+		const float contractionSpeed = sqrt(radius) * 0.18f;
 		radius -= dt *contractionSpeed;
 	}
 }

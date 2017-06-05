@@ -186,7 +186,7 @@ void Game::Player2_Shoot()
 {
 	bool test = true;
 	Vec2 spawnPoint = p1.GetSpawnPoint();
-	for (int i = 0; i < indexWalls; i++ )
+	for (int i = 1; i < indexWalls; i++ )
 	{
 		if (walls[i].ContainsPoint(spawnPoint))
 		{
@@ -239,7 +239,7 @@ void Game::DrawBullets()
 
 void Game::DrawWalls()
 {
-	for (int i = 0; i <= indexWalls; i++)
+	for (int i = 1; i <= indexWalls; i++)
 	{
 		gfx.DrawRectPoints(walls[i], Color(100,100,100));
 	}
@@ -255,7 +255,7 @@ void Game::UndoWall()
 		{
 			if (e.GetCode() == 0x5A)
 			{
-				if (indexWalls >= 0)
+				if (indexWalls >= 1)
 				{
 					indexWalls--;
 				}

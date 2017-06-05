@@ -17,7 +17,7 @@ void Bullet::Update( float dt, RectF walls[], int indexWalls, Sound& wallBounceS
 	pos += vel * dt;
 	lifeTime -= dt;
 	DoWallCollision(RectF(Vec2(0.0f, 0.0f), Vec2(float(Graphics::ScreenWidth), float(Graphics::ScreenHeight-35))), wallBounceSound);
-	for (int i = 0; i <= indexWalls; i++)
+	for (int i = 1; i <= indexWalls; i++)
 	{
 		DoOutsideWallCollision(walls[i], wallBounceSound);
 	}
