@@ -1,13 +1,15 @@
 #include "Player.h"
 #include <cmath>
+#include <random>
 
 Player::Player(const Vec2 in_pos, const float in_angle, Color c)
 	:
 	startPos(in_pos),
 	startAngle(in_angle),
 	c(c),
-	hit({ L"hit1.wav",L"hit2.wav" })
-	//,electricSound({ L"electric0", L"electric1", L"electric2" })
+	hit({ L"hit1.wav",L"hit2.wav" }),
+	electricSound({ L"electric1.wav", L"electric2.wav" }),
+	rng(rd())
 {
 	NewRound();
 }
@@ -64,7 +66,7 @@ void Player::Update(Keyboard& kbd, const float dt,
 		{
 			if (IsOverLappingWith(bullets[i].GetPosition(), Bullet::radius))
 			{
-				hit.Play(rng);
+				hit.Play(rng,0.1f);
 				bullets[i].Destroy();
 				if (HP - 2.0f> 0.0f)
 				{
@@ -91,7 +93,12 @@ void Player::Update(Keyboard& kbd, const float dt,
 
 	if (IsContainedBy(field.GetPos(), field.GetRadius()) == false)
 	{
-		if(HP-dt > 0.0f)
+		const float persecond = 0.5f;
+		if (int(HP*persecond) > int((HP - dt)*persecond))
+		{
+			electricSound.Play(rng,0.1f);
+		}
+		if(HP-dt> 0.0f)
 		{
 			LowerHP(dt);
 		}

@@ -68,7 +68,7 @@ private:
 	Vec2 startPos; 
 	float startAngle;
 	SoundEffect hit;
-	//SoundEffect electricSound;
+	SoundEffect electricSound;
 
 	std::random_device rd;
 	std::mt19937 rng;
