@@ -24,7 +24,7 @@ void ElectricField::Draw(Graphics & gfx)
 		if ((things[i].point - intPos).GetLength() > radius )
 		{
 			int len = lengthRange(rng);
-			things[i].Draw(gfx, len);
+			things[i].Draw(*this, gfx, len);
 		}
 	}
 }
@@ -53,29 +53,29 @@ void ElectricField::Reset()
 	}
 }
 
-void ElectricField::ElectricThing::Draw(Graphics& gfx, int length)
+void ElectricField::ElectricThing::Draw(ElectricField& field, Graphics& gfx, int length)
 {
 	if (length > 0)
 	{
 		
-		Vei2 delta = Vei2(pixelVariation(rng), pixelVariation(rng));
-		while (!validPoint(point + delta))
+		Vei2 delta = Vei2(field.pixelVariation(field.rng), field.pixelVariation(field.rng));
+		while (!validPoint(field, point + delta))
 		{
-			delta = Vei2(pixelVariation(rng), pixelVariation(rng));
+			delta = Vei2(field.pixelVariation(field.rng), field.pixelVariation(field.rng));
 		}
 
 
 		gfx.PutPixel(point.x, point.y, electricThing);
 		point += delta;
 		
-		Draw(gfx, length - 1);
+		Draw(field, gfx, length - 1);
 	}
 }
 
-bool ElectricField::ElectricThing::validPoint(Vei2 in_point) const
+bool ElectricField::ElectricThing::validPoint(ElectricField& field, Vei2 in_point) const
 {
 	return	in_point.x >= 0 && in_point.y >= 0 && in_point.x < Graphics::ScreenWidth && in_point.y < Graphics::ScreenHeight &&
-			(intPos - in_point).GetLength() >= GetRadius();
+			(field.intPos - in_point).GetLength() >= field.radius;
 }
 
 Vec2 ElectricField::GetPos() const

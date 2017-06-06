@@ -39,8 +39,8 @@ private:
 private:
 	struct ElectricThing
 	{
-		void Draw(Graphics& gfx, int length);
-		bool validPoint(Vei2 in_point) const;
+		void Draw(ElectricField& field, Graphics& gfx, int length);
+		bool validPoint(ElectricField& field, Vei2 in_point) const;
 		Vei2 point;
 	};
 	static constexpr int numberOfElectricThings = 1000;
