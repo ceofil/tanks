@@ -33,8 +33,9 @@ private:
 	std::uniform_int_distribution<int> lengthRange;
 	std::uniform_int_distribution<int> binary;
 
-	static constexpr Color cl = Color(0, 100, 255);
+	static constexpr Color circleColor = Color(0, 100, 255);
 	static constexpr Color electricThing = Color(130, 190, 255);
+	static constexpr Color safezone = Color(50, 50, 50);
 
 
 	static constexpr int numberOfElectricThings = 1000;

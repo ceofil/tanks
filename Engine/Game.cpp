@@ -97,11 +97,8 @@ void Game::UpdateModel(float dt)
 
 void Game::ComposeFrame()
 {
-	gfx.FillScreenWith(Color(50, 50, 50));
-
-	if(gameIsStarted)
-		field.Draw(gfx);
-
+	gfx.FillScreenWith(Color(65, 65, 65));
+	field.Draw(gfx);
 	DrawWalls();
 	field.DrawCircle(gfx);
 	p1.Draw(gfx);

@@ -17,6 +17,7 @@ ElectricField::ElectricField(Vec2 in_pos, float in_radius)
 
 void ElectricField::Draw(Graphics & gfx)
 {
+	gfx.DrawCircle(pos, radius, safezone);
 	int nrThings = int(float(numberOfElectricThings) *  float((Graphics::ScreenWidth + minValueRadius - int(radius))) / float(Graphics::ScreenWidth));
 	for (int i = 0; i < nrThings; i++)
 	{
@@ -30,7 +31,7 @@ void ElectricField::Draw(Graphics & gfx)
 
 void ElectricField::DrawCircle(Graphics & gfx)
 {
-	gfx.DrawCircleStrokeOnly(pos, radius, 5.0f, cl);
+	gfx.DrawCircleStrokeOnly(pos, radius, 5.0f, circleColor);
 }
 
 void ElectricField::Update(float dt)

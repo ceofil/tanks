@@ -80,7 +80,7 @@ private:
 	static constexpr int nBullets = 50;
 	Bullet bullets[nBullets];
 
-	static constexpr int nWalls = 1+10;
+	static constexpr int nWalls = 1+50;
 	RectF walls[nWalls];
 	
 	bool gameIsStarted = false;
