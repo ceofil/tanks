@@ -13,8 +13,6 @@ public:
 	void DrawCircle(Graphics& gfx);
 	void Update(float dt);
 	void Reset();
-	void DrawElectricThing(Graphics& gfx, Vei2 point, int length, int index);
-	bool validPoint(Vei2 point);
 public:
 	Vec2 GetPos()const;
 	float GetRadius()const;
@@ -25,11 +23,12 @@ private:
 	float radius;
 	static constexpr float minValueRadius = 100.0f;
 
+private:
 	std::random_device rd;
 	std::mt19937 rng;
-	std::uniform_int_distribution<int> pixelVariation;
 	std::uniform_int_distribution<int> xRange;
 	std::uniform_int_distribution<int> yRange;
+	std::uniform_int_distribution<int> pixelVariation;
 	std::uniform_int_distribution<int> lengthRange;
 	std::uniform_int_distribution<int> binary;
 
@@ -37,7 +36,15 @@ private:
 	static constexpr Color electricThing = Color(130, 190, 255);
 	static constexpr Color safezone = Color(50, 50, 50);
 
-
+private:
+	struct ElectricThing
+	{
+		void Draw(Graphics& gfx, int length);
+		bool validPoint(Vei2 in_point) const;
+		Vei2 point;
+	};
 	static constexpr int numberOfElectricThings = 1000;
-	Vei2 things[numberOfElectricThings];
+	ElectricThing things[numberOfElectricThings];
+
+
 };

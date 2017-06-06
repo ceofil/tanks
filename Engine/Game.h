@@ -82,14 +82,12 @@ private:
 
 	static constexpr int nWalls = 1+50;
 	RectF walls[nWalls];
-	
-	bool gameIsStarted = false;
+
 	int indexWalls = 0;
 	bool RectStarted = false;
 	int x1, x2, y1, y2;
 
-	static constexpr int sw = Graphics::ScreenWidth;
-	static constexpr int sh = Graphics::ScreenHeight;
+	bool gameIsStarted = false;
 
 	std::random_device rd;
 	std::mt19937 rng;
