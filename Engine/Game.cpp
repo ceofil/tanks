@@ -160,9 +160,11 @@ void Game::Player1_Shoot()
 	//so Bullets don't spawn inside walls
 	bool test = true;
 	Vec2 spawnPoint = p1.GetSpawnPoint();
-	for (int i = 0; i < indexWalls; i++)
+	Vec2 dimension = Vec2(Bullet::radius, Bullet::radius);
+	RectF spawnRect = RectF(spawnPoint - dimension, spawnPoint + dimension);
+	for (int i = 1; i < indexWalls; i++)
 	{
-		if (walls[i].ContainsPoint(spawnPoint))
+		if (walls[i].IsOverlappingWith(spawnRect))
 		{
 			test = false;
 			break;
@@ -185,11 +187,14 @@ void Game::Player1_Shoot()
 
 void Game::Player2_Shoot()
 {
+	//so Bullets don't spawn inside walls
 	bool test = true;
-	Vec2 spawnPoint = p1.GetSpawnPoint();
-	for (int i = 1; i < indexWalls; i++ )
+	Vec2 spawnPoint = p2.GetSpawnPoint();
+	Vec2 dimension = Vec2(Bullet::radius, Bullet::radius);
+	RectF spawnRect = RectF(spawnPoint - dimension, spawnPoint + dimension);
+	for (int i = 1; i < indexWalls; i++)
 	{
-		if (walls[i].ContainsPoint(spawnPoint))
+		if (walls[i].IsOverlappingWith(spawnRect))
 		{
 			test = false;
 			break;
@@ -201,8 +206,8 @@ void Game::Player2_Shoot()
 		{
 			if (bullets[i].IsSpawned() == false && bullets[i].GetLifeTime() <= 0.0f)
 			{
-				bullets[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 0.3f);
-				bulletShot.Play();
+				bullets[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 1.0f);
+				bulletShot.Play(1.0f, 0.3f);
 				break;
 			}
 		}
@@ -292,7 +297,26 @@ void Game::DrawScore()
 	gfx.DrawRectStrokeOnly(wSpacing, sh - hSpacing - height, wSpacing + hpBarWidth, sh - hSpacing, p2.GetColor());
 	txt.drawintRight(int(p2.GetHP()), wSpacing / 4 - 1, (sh - hSpacing) / 4 - 6, Colors::White);
 
+	//line
 	gfx.DrawRectPoints(0, sh - 41, sw - 1, sh - 40, Color(70, 70, 70));
+
+	//bulletCounter
+	const int bulletCountWidth = hpBarWidth * 75 / 100;
+	const int spacing = std::max(1,bulletCountWidth/100);
+	const int bulletWidth = bulletCountWidth / nBullets - spacing;
+	const int bulletHeight = height * 75 / 100;
+
+	int BulletsLeft = CountBulletsLeft(1);
+	for (int i = 0; i < BulletsLeft; i++)
+	{
+		gfx.DrawRectPoints(wSpacing + i * (bulletWidth+spacing), sh - 2*hSpacing - 2* bulletHeight, wSpacing + (i+1)*bulletWidth + i * spacing, sh - 2 * hSpacing - bulletHeight, Colors::LightGray);
+	}
+
+	BulletsLeft = CountBulletsLeft(2);
+	for (int i = 0; i < BulletsLeft; i++)
+	{
+		gfx.DrawRectPoints(sw -wSpacing - i * (bulletWidth + spacing), sh - 2 * hSpacing - 2 * bulletHeight, sw - wSpacing - (i + 1)*bulletWidth - i * spacing, sh - 2 * hSpacing - bulletHeight, Colors::LightGray);
+	}
 }
 
 int Game::CountBulletsLeft(int player)
@@ -310,18 +334,19 @@ int Game::CountBulletsLeft(int player)
 
 void Game::DrawBulletsLeft()
 {
-	const int spacing = 8;
-
+	const int width = 385;
+	const int spacing = 5;
+	const int bulletWidth = width / nBullets - spacing;
 	int BulletsLeft = CountBulletsLeft(1);
 	for (int i = 0; i < BulletsLeft; i++)
 	{
-		gfx.DrawCircle(450 - i * spacing, Graphics::ScreenHeight - 50, 3, p1.GetColor());
+
 	}
 
 	BulletsLeft = CountBulletsLeft(2);
 	for (int i = 0; i < BulletsLeft; i++)
 	{
-		gfx.DrawCircle(350 + i * spacing, Graphics::ScreenHeight - 50, 3, p2.GetColor());
+
 	}
 	
 
