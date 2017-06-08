@@ -17,7 +17,7 @@ ElectricField::ElectricField(Vec2 in_pos, float in_radius)
 
 void ElectricField::Draw(Graphics & gfx)
 {
-	gfx.DrawCircle(pos, radius, safezone);
+	gfx.DrawCircle(pos, radius, safezoneColor);
 
 	for (int i = 0; i < numberOfElectricThings; i++)
 	{
@@ -29,7 +29,7 @@ void ElectricField::Draw(Graphics & gfx)
 	}
 }
 
-void ElectricField::DrawCircle(Graphics & gfx)
+void ElectricField::DrawCircle(Graphics & gfx) const
 {
 	gfx.DrawCircleStrokeOnly(pos, radius, 5.0f, circleColor);
 }
@@ -64,15 +64,14 @@ void ElectricField::ElectricThing::Draw(ElectricField& field, Graphics& gfx, int
 			delta = Vei2(field.pixelVariation(field.rng), field.pixelVariation(field.rng));
 		}
 
-
-		gfx.PutPixel(point.x, point.y, electricThing);
+		gfx.PutPixel(point.x, point.y, electricThingColor);
 		point += delta;
 		
 		Draw(field, gfx, length - 1);
 	}
 }
 
-bool ElectricField::ElectricThing::validPoint(ElectricField& field, Vei2 in_point) const
+bool ElectricField::ElectricThing::validPoint(ElectricField& field, const Vei2 in_point) const
 {
 	return	in_point.x >= 0 && in_point.y >= 0 && in_point.x < Graphics::ScreenWidth && in_point.y < Graphics::ScreenHeight &&
 			(field.intPos - in_point).GetLength() >= field.radius;

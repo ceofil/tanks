@@ -201,7 +201,7 @@ void Game::Player2_Shoot()
 		{
 			if (bullets[i].IsSpawned() == false && bullets[i].GetLifeTime() <= 0.0f)
 			{
-				bullets[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 1.0f);
+				bullets[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 0.3f);
 				bulletShot.Play();
 				break;
 			}

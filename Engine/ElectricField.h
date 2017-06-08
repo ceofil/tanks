@@ -10,12 +10,14 @@ class ElectricField
 public:
 	ElectricField(Vec2 in_pos, float in_radius);
 	void Draw(Graphics& gfx);
-	void DrawCircle(Graphics& gfx);
+	void DrawCircle(Graphics& gfx) const;
 	void Update(float dt);
 	void Reset();
+
 public:
 	Vec2 GetPos()const;
 	float GetRadius()const;
+
 private:
 	Vec2 pos;
 	Vei2 intPos;
@@ -33,14 +35,14 @@ private:
 	std::uniform_int_distribution<int> binary;
 
 	static constexpr Color circleColor = Color(0, 100, 255);
-	static constexpr Color electricThing = Color(130, 190, 255);
-	static constexpr Color safezone = Color(50, 50, 50);
+	static constexpr Color electricThingColor = Color(130, 190, 255);
+	static constexpr Color safezoneColor = Color(50, 50, 50);
 
 private:
 	struct ElectricThing
 	{
 		void Draw(ElectricField& field, Graphics& gfx, int length);
-		bool validPoint(ElectricField& field, Vei2 in_point) const;
+		bool validPoint(ElectricField& field, const Vei2 in_point) const;
 		Vei2 point;
 	};
 	static constexpr int numberOfElectricThings = 1000;
