@@ -22,15 +22,18 @@ public:
 	void Destroy();
 	void LowerLifeTime(float dt);
 public:
+	void SetDirection(const Vec2& dir);
+	void Load();
 	RectF GetRect() const;
 	Vec2 GetVelocity() const;
 	Vec2 GetPosition() const;
-	void SetDirection( const Vec2& dir );
-	bool IsSpawned();
-	float GetLifeTime();
+	bool IsSpawned() const;
+	bool IsLoaded() const;
+	float GetLifeTime() const;
 	static constexpr float radius = 2.5f;
 private:
 	bool spawned = false;
+	bool loaded = true;
 	float lifeTime = 0.0f;
 	float speed = 1200.0f;
 	Vec2 pos;

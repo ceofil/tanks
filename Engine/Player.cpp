@@ -2,11 +2,12 @@
 #include <cmath>
 #include <random>
 
-Player::Player(const Vec2 in_pos, const float in_angle, Color c)
+Player::Player(const Vec2 in_pos, const float in_angle, Color c, int in_index)
 	:
 	startPos(in_pos),
 	startAngle(in_angle),
 	c(c),
+	playerIndex(in_index),
 	hit({ L"hit1.wav",L"hit2.wav" }),
 	electricSound({ L"electric1.wav", L"electric2.wav" }),
 	rng(rd())
@@ -20,6 +21,15 @@ void Player::Draw(Graphics & gfx) const
 
 	Vec2 aim = pos + dir * radius;
 	gfx.DrawCircle(aim, radius * scopeRadius, Colors::White);
+
+	if (IsReloading())
+	{
+		gfx.DrawCircleStrokeOnly(pos, 1.5*radius * (1.0f - GetPercentTimeLeft() ), 1.5f * radius * scopeRadius * ( 3.0f * GetPercentTimeLeft() ), Colors::White);
+		if (!IsReloading())
+		{
+			gfx.DrawCircle(pos, radius, Colors::White);
+		}
+	}
 }
 
 void Player::Update(Keyboard& kbd, const float dt, 
@@ -41,23 +51,33 @@ void Player::Update(Keyboard& kbd, const float dt,
 		dir = AngleToVec2(angle);
 	}
 
-	
-	if (kbd.KeyIsPressed(up))
+	if (!IsReloading())
 	{
-		pos += dir * speed * dt;
-		DoPlayerCollision(other, dt);
-		for (int i = 1; i <= indexWalls; i++)
+		if (kbd.KeyIsPressed(up))
 		{
-			DoWallCollision(walls[i], dir, dt);
+			pos += dir * speed * dt;
+			DoPlayerCollision(other, dt);
+			for (int i = 1; i <= indexWalls; i++)
+			{
+				DoWallCollision(walls[i], dir, dt);
+			}
+		}
+		else if (kbd.KeyIsPressed(down))
+		{
+			pos -= dir * speed * dt;
+			DoPlayerCollision(other, dt);
+			for (int i = 1; i <= indexWalls; i++)
+			{
+				DoWallCollision(walls[i], dir*(-1.0f), dt);
+			}
 		}
 	}
-	else if (kbd.KeyIsPressed(down))
+	else 
 	{
-		pos -= dir * speed * dt;
-		DoPlayerCollision(other, dt);
-		for (int i = 1; i <= indexWalls; i++)
+		reloadingTimeLeft -= dt;
+		if (!IsReloading())
 		{
-			DoWallCollision(walls[i], dir*(-1.0f), dt);
+			Reload(bullets, nBullets);
 		}
 	}
 	for (int i = 0; i <= nBullets; i++)
@@ -180,6 +200,16 @@ Color Player::GetColor() const
 	return c;
 }
 
+bool Player::IsReloading() const
+{
+	return reloadingTimeLeft > 0.0f;
+}
+
+float Player::GetPercentTimeLeft() const
+{
+	return reloadingTimeLeft / reloadingTime;
+}
+
 int Player::GetScore() const
 {
 	return score;
@@ -203,6 +233,19 @@ void Player::AddToScore()
 void Player::LowerHP(float dmg)
 {
 	HP -= dmg;
+}
+
+void Player::Reload()
+{
+	reloadingTimeLeft = reloadingTime;
+}
+
+void Player::Reload(Bullet* bullets, int nBullets)
+{
+	for (int i = (playerIndex - 1) * nBullets / 2; i < playerIndex * nBullets / 2; i++)
+	{
+		bullets[i].Load();
+	}
 }
 
 void Player::NewRound()

@@ -29,8 +29,8 @@ Game::Game(MainWindow& wnd)
 	wnd(wnd),
 	gfx(wnd),
 	txt(gfx,0,0,4,4,800,600),
-	p1(Vec2(float(Graphics::ScreenWidth / 2)+50.0f, float(Graphics::ScreenHeight / 2)), 0.0f, Color(255, 80, 80)),
-	p2(Vec2(float(Graphics::ScreenWidth / 2)-50.0f, float(Graphics::ScreenHeight / 2)), 180.0f, Color(51, 204, 51)),
+	p1(Vec2(float(Graphics::ScreenWidth / 2)+50.0f, float(Graphics::ScreenHeight / 2)), 0.0f, Color(255, 80, 80), 1),
+	p2(Vec2(float(Graphics::ScreenWidth / 2)-50.0f, float(Graphics::ScreenHeight / 2)), 180.0f, Color(51, 204, 51), 2),
 	field(Vec2(400.0f,300.0f),1000.0f),
 	wallBounceSound(L"ballBounce.wav"),
 	bulletShot(L"bulletShot.wav"),
@@ -86,6 +86,14 @@ void Game::UpdateModel(float dt)
 				{
 					Player2_Shoot();
 				}
+				if (e.GetCode() == VK_SHIFT)
+				{
+					p1.Reload();
+				}
+				if (e.GetCode() == 0x52)
+				{
+					p2.Reload();  //R
+				}
 			}
 		}
 		UpdateBullets(dt);
@@ -105,9 +113,8 @@ void Game::ComposeFrame()
 	p2.Draw(gfx);
 	if (gameIsStarted)
 	{
-		DrawScore();
+		DrawInterface();
 		DrawBullets();
-		DrawBulletsLeft();
 	}
 	else
 	{
@@ -175,7 +182,7 @@ void Game::Player1_Shoot()
 	{
 		for (int i = 0; i < nBullets / 2; i++)
 		{
-			if (bullets[i].IsSpawned() == false && bullets[i].GetLifeTime() <= 0.0f)
+			if (bullets[i].IsSpawned() == false && bullets[i].IsLoaded() )
 			{
 				bullets[i].Spawn(p1.GetSpawnPoint(), p1.GetDir(), 1.0f);
 				bulletShot.Play(1.0f, 0.3f);
@@ -204,7 +211,7 @@ void Game::Player2_Shoot()
 	{
 		for (int i = nBullets / 2; i < nBullets; i++)
 		{
-			if (bullets[i].IsSpawned() == false && bullets[i].GetLifeTime() <= 0.0f)
+			if (bullets[i].IsSpawned() == false && bullets[i].IsLoaded() )
 			{
 				bullets[i].Spawn(p2.GetSpawnPoint(), p2.GetDir(), 1.0f);
 				bulletShot.Play(1.0f, 0.3f);
@@ -270,15 +277,15 @@ void Game::UndoWall()
 	}
 }
 
-void Game::DrawScore()
+void Game::DrawInterface()
 {
 	//don't try to understand this...just a bunch of aligning 
 	const int sw = Graphics::ScreenWidth;
 	const int sh = Graphics::ScreenHeight;
-	const int hSpacing = 10;
-	const int wSpacing = 50;
-	const int height = 20;
-	const int hpBarWidth = 400;
+	const int hSpacing = std::max(sh / 90, 1);
+	const int wSpacing = std::max(sw / 24, 1);
+	const int height = std::max(sh / 45, 1);
+	const int hpBarWidth = sw / 3;
 
 	//p1 and p2 scores
 	gfx.DrawRectPoints(wSpacing + hpBarWidth + 10, sh - hSpacing - height - 11, sw - (wSpacing + hpBarWidth + 10), sh - 3, Color(80, 80, 80));
@@ -301,18 +308,21 @@ void Game::DrawScore()
 	gfx.DrawRectPoints(0, sh - 41, sw - 1, sh - 40, Color(70, 70, 70));
 
 	//bulletCounter
-	const int bulletCountWidth = hpBarWidth * 75 / 100;
-	const int spacing = std::max(1,bulletCountWidth/100);
-	const int bulletWidth = bulletCountWidth / nBullets - spacing;
+	const int bulletCountWidth = hpBarWidth * 40 / 100;
+	const int spacing = std::max(1,bulletCountWidth/50);
+	const int bulletWidth = bulletCountWidth / (nBullets / 2) - spacing;
 	const int bulletHeight = height * 75 / 100;
 
-	int BulletsLeft = CountBulletsLeft(1);
+	gfx.DrawRectPoints(wSpacing, sh - 41, wSpacing + (nBullets / 2 - 1)*(bulletWidth + spacing), sh - 40, Color(100, 100, 100));
+	gfx.DrawRectPoints( sw - wSpacing, sh - 41, sw - wSpacing - (nBullets / 2 - 1)*(bulletWidth + spacing), sh - 40, Color(100, 100, 100));
+
+	int BulletsLeft = CountBulletsLeft(2);
 	for (int i = 0; i < BulletsLeft; i++)
 	{
 		gfx.DrawRectPoints(wSpacing + i * (bulletWidth+spacing), sh - 2*hSpacing - 2* bulletHeight, wSpacing + (i+1)*bulletWidth + i * spacing, sh - 2 * hSpacing - bulletHeight, Colors::LightGray);
 	}
 
-	BulletsLeft = CountBulletsLeft(2);
+	BulletsLeft = CountBulletsLeft(1);
 	for (int i = 0; i < BulletsLeft; i++)
 	{
 		gfx.DrawRectPoints(sw -wSpacing - i * (bulletWidth + spacing), sh - 2 * hSpacing - 2 * bulletHeight, sw - wSpacing - (i + 1)*bulletWidth - i * spacing, sh - 2 * hSpacing - bulletHeight, Colors::LightGray);
@@ -324,7 +334,7 @@ int Game::CountBulletsLeft(int player)
 	int counter = 0;
 	for (int i = (player - 1) * nBullets / 2; i < player * nBullets / 2; i++)
 	{
-		if (bullets[i].GetLifeTime()<=0.0f)
+		if (bullets[i].IsLoaded())
 		{
 			counter++;
 		}
@@ -332,22 +342,3 @@ int Game::CountBulletsLeft(int player)
 	return counter;
 }
 
-void Game::DrawBulletsLeft()
-{
-	const int width = 385;
-	const int spacing = 5;
-	const int bulletWidth = width / nBullets - spacing;
-	int BulletsLeft = CountBulletsLeft(1);
-	for (int i = 0; i < BulletsLeft; i++)
-	{
-
-	}
-
-	BulletsLeft = CountBulletsLeft(2);
-	for (int i = 0; i < BulletsLeft; i++)
-	{
-
-	}
-	
-
-}

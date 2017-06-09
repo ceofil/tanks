@@ -58,10 +58,9 @@ private:
 	void DrawBullets();
 	void DrawWalls();
 	void UndoWall();
-	void DrawScore();
+	void DrawInterface();
 
 	int CountBulletsLeft(int player);
-	void DrawBulletsLeft();
 	/********************************/
 private:
 	MainWindow& wnd;

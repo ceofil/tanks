@@ -11,7 +11,7 @@
 class Player
 {
 public:
-	Player(const Vec2 in_pos, const float in_angle, Color c);
+	Player(const Vec2 in_pos, const float in_angle, Color c, int in_index);
 	void Draw(Graphics& gfx) const;
 	void Update(Keyboard& kbd, const float dt, 
 				RectF walls[], int indexWalls, 
@@ -38,6 +38,8 @@ public:
 	void Move(Vec2 dir_in, float dt);
 	void AddToScore();
 	void LowerHP(float dmg);
+	void Reload(); //this one just starts the timer
+	void Reload(Bullet* bullets, int nBullets); //this one actually reloads
 public:
 	RectF GetRect() const;
 	Vec2 GetPos() const;
@@ -47,8 +49,12 @@ public:
 	float GetHP() const;
 	float GetMaxHP() const;
 	Color GetColor() const;
+	bool IsReloading() const;
+	float GetPercentTimeLeft() const;
 
 private:
+	float reloadingTimeLeft = 0.0f;
+	static constexpr float reloadingTime = 1.5f;
 	static constexpr float speed = 200.0f;
 	static constexpr float rotationSpeed = 100.0f;
 	static constexpr float radius = 15.0f;
@@ -63,6 +69,7 @@ private:
 	Vec2 pos;
 	Vec2 dir;
 	float angle;
+	int playerIndex;
 
 	//so I have what to set it to in NewRound();
 	Vec2 startPos; 

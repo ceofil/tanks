@@ -116,12 +116,22 @@ void Bullet::SetDirection( const Vec2 & dir )
 	vel = dir.GetNormalized() * speed;
 }
 
-bool Bullet::IsSpawned()
+void Bullet::Load()
+{
+	loaded = true;
+}
+
+bool Bullet::IsLoaded() const
+{
+	return loaded;
+}
+
+bool Bullet::IsSpawned() const
 {
 	return spawned;
 }
 
-float Bullet::GetLifeTime()
+float Bullet::GetLifeTime() const
 {
 	return lifeTime;
 }
@@ -129,6 +139,7 @@ float Bullet::GetLifeTime()
 void Bullet::Spawn(const Vec2 & pos_in, const Vec2 & dir_in, float lifetime_in)
 {
 	spawned = true;
+	loaded = false;
 	pos = pos_in;
 	vel = dir_in * speed;
 	lifeTime = lifetime_in;
