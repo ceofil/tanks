@@ -72,7 +72,7 @@ void Player::Update(Keyboard& kbd, const float dt,
 		else if (kbd.KeyIsPressed(down))
 		{
 			pos -= dir * speed * dt;
-			DoPlayerCollision(other, dt);
+			DoPlayerCollision(other, -dt);
 			for (int i = 1; i <= indexWalls; i++)
 			{
 				DoWallCollision(walls[i], dir*(-1.0f), dt);
@@ -184,6 +184,10 @@ void Player::DoWallCollision(const RectF & wall, const Vec2 dir, const float dt)
 				}
 				
 			}
+		}
+		if (rect.IsOverlappingWith(wall))
+		{
+			Move(dir * -0.5f, dt);
 		}
 	}
 }
