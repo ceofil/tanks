@@ -88,11 +88,13 @@ void Game::UpdateModel(float dt)
 				}
 				if (e.GetCode() == VK_SHIFT)
 				{
-					p1.Reload();
+					if (!p1.IsReloading() && CountBulletsLeft(1) < nBullets / 2) 
+						p1.Reload();
 				}
 				if (e.GetCode() == 0x52)
 				{
-					p2.Reload();  //R
+					if (!p2.IsReloading() && CountBulletsLeft(2) < nBullets / 2) 
+						p2.Reload();  //R
 				}
 			}
 		}

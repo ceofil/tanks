@@ -17,6 +17,7 @@ public:
 public:
 	Vec2 GetPos()const;
 	float GetRadius()const;
+	static constexpr float damage = 5.0f;
 
 private:
 	Vec2 pos;

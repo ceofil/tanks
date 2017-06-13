@@ -24,11 +24,18 @@ void Player::Draw(Graphics & gfx) const
 
 	if (IsReloading())
 	{
-		gfx.DrawCircleStrokeOnly(pos, 1.5*radius * (1.0f - GetPercentTimeLeft() ), 1.5f * radius * scopeRadius * ( 3.0f * GetPercentTimeLeft() ), Colors::White);
-		if (!IsReloading())
+		//tranzition from white to the initial color
+		if (GetPercentTimeLeft() < 0.25f)
 		{
-			gfx.DrawCircle(pos, radius, Colors::White);
+			int r = c.GetR() + (GetPercentTimeLeft() / 0.25f) * (255 - c.GetR());
+			int g = c.GetG() + (GetPercentTimeLeft() / 0.25f) * (255 - c.GetG());
+			int b = c.GetB() + (GetPercentTimeLeft() / 0.25f) * (255 - c.GetB());
+
+			gfx.DrawCircle(pos, radius, Color(r, g, b));
 		}
+
+		//circle burst 
+		gfx.DrawCircleStrokeOnly(pos, 1.5*radius * (1.0f - GetPercentTimeLeft() ), 1.5f * radius * scopeRadius * ( 3.0f * GetPercentTimeLeft() ), Colors::White);	
 	}
 }
 
@@ -111,16 +118,17 @@ void Player::Update(Keyboard& kbd, const float dt,
 		}
 	}
 
+
 	if (IsContainedBy(field.GetPos(), field.GetRadius()) == false)
 	{
-		const float persecond = 0.5f;
+		const float persecond = 1.0f;
 		if (int(HP*persecond) > int((HP - dt)*persecond))
 		{
 			electricSound.Play(rng,0.1f);
 		}
-		if(HP-dt> 0.0f)
+		if(HP-dt* ElectricField::damage> 0.0f)
 		{
-			LowerHP(dt);
+			LowerHP(dt*ElectricField::damage);
 		}
 		else
 		{
