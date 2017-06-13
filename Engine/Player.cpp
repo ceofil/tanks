@@ -181,14 +181,15 @@ void Player::DoWallCollision(const RectF & wall, const Vec2 dir, const float dt)
 					{
 						pos.y -= dir.y * speed * dt;
 					}
+					if (rect.IsOverlappingWith(wall))
+					{
+						Move(dir * -0.5f, dt);
+					}
 				}
 				
 			}
 		}
-		if (rect.IsOverlappingWith(wall))
-		{
-			Move(dir * -0.5f, dt);
-		}
+		
 	}
 }
 
